@@ -1,12 +1,12 @@
 "use client"
 import React, { useState } from 'react';
 import Taskbar from './Taskbar';
-import Window from '@/components/Window/Window'; // Assuming this is your Window component
+import Window from '@/components/Window/Window'; 
 import StartMenu from './StartMenu';
 import AppIcon from './AppIcon';
 import { useWindowStore } from '@/lib/store/windowStore';
 
-// Import your application components
+
 import Projects from '@/components/Apps/Projects';
 import Experience from '@/components/Apps/Experience';
 import Education from '@/components/Apps/Education';
@@ -50,9 +50,9 @@ const Desktop: React.FC<DesktopProps> = ({ children }) => {
       uniqueId,
       title,
       component,
-      staggeredPosition, // Initial position
-      defaultSize,      // Initial size
-      iconSrc           // The icon path for the taskbar
+      staggeredPosition, 
+      defaultSize,      
+      iconSrc           
     );
   };
 

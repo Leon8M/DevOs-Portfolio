@@ -79,6 +79,7 @@ const StartMenu: React.FC<{ isOpen: boolean; onClose: () => void; }> = ({ isOpen
     // State to help with staggered positioning of new windows
     const [startMenuAppLaunchCount, setStartMenuAppLaunchCount] = useState<Record<string, number>>({});
 
+    // Function to get a staggered position for new windows
     const getStaggeredPosition = (appName: string) => {
         const currentCount = (startMenuAppLaunchCount[appName] || 0) + 1;
         setStartMenuAppLaunchCount(prev => ({ ...prev, [appName]: currentCount }));
@@ -89,18 +90,19 @@ const StartMenu: React.FC<{ isOpen: boolean; onClose: () => void; }> = ({ isOpen
         };
     };
 
+    // Handle opening an app from the menu
     const handleMenuItemClick = (item: AppItem) => {
-        // Generate a more robust unique ID for the window
+       
         const uniqueId = `${item.label.replace(/\s/g, '-')}-${Date.now()}`;
         const staggeredPosition = getStaggeredPosition(item.label);
 
         addWindow(
-            uniqueId, // Unique ID for the window
-            item.label, // Window title
-            item.component, // The React component to render inside the window
-            staggeredPosition, // Initial position
-            item.defaultSize || { width: 600, height: 400 }, // Use item's defaultSize or a generic fallback
-            item.icon // <--- THIS IS WHERE THE ICON IS PASSED!
+            uniqueId, 
+            item.label, 
+            item.component, 
+            staggeredPosition, 
+            item.defaultSize || { width: 600, height: 400 }, 
+            item.icon
         );
         onClose(); // Close the start menu after opening an app
     };

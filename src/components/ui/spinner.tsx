@@ -1,9 +1,8 @@
-// src/components/ui/spinner.tsx
 import React from 'react';
 
 interface SpinnerProps {
-  size?: number; // Optional size in pixels
-  className?: string; // Optional additional Tailwind classes
+  size?: number; 
+  className?: string;
 }
 
 const Spinner: React.FC<SpinnerProps> = ({ size = 40, className = '' }) => {

@@ -1,12 +1,13 @@
 import React from 'react';
-import { projects } from '@/lib/data/projects'; // Assuming this path is correct
-import { useWindowStore } from '@/lib/store/windowStore'; // Assuming this path is correct
-import ProjectDetailWindow from './ProjectDetailWindow'; // Assuming this path is correct
+import { projects } from '@/lib/data/projects';
+import { useWindowStore } from '@/lib/store/windowStore'; 
+import ProjectDetailWindow from './ProjectDetailWindow'; 
 import Image from "next/image";
 
 const Projects: React.FC = () => {
   const { addWindow } = useWindowStore();
 
+  // Function to open a project detail window
   const openProjectDetail = (project: typeof projects[0]) => { // Added type for project
     addWindow(
       `project-${project.id}`,

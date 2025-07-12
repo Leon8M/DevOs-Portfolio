@@ -15,6 +15,8 @@ const useIsMobile = () => {
   return isMobile;
 };
 
+// Window component
+// This component represents a single window in the desktop environment
 interface WindowProps {
   id: string;
   title: string;
@@ -24,6 +26,7 @@ interface WindowProps {
   children: React.ReactNode;
 }
 
+// Sample resume data
 const Window: React.FC<WindowProps> = ({
   id,
   title,
@@ -47,6 +50,7 @@ const Window: React.FC<WindowProps> = ({
 
   const handleFocus = () => focusWindow(id);
 
+  // Handle toggling maximize state
   const handleToggleMaximize = () => {
     if (!rndRef.current) return;
 
@@ -74,10 +78,12 @@ const Window: React.FC<WindowProps> = ({
     }
   };
 
+  // Handle dragging
   const onDragStop: RndDragCallback = (e, d) => {
     setPosition({ x: d.x, y: d.y });
   };
 
+  // Handle resizing
   const onResizeStop: RndResizeCallback = (e, direction, ref, delta, newPosition) => {
     setSize({
       width: ref.style.width,
