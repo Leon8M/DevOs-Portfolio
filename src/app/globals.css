@@ -1,26 +1,717 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html,
+body {
+  height: 100%;
+  width: 100%;
+  overflow: hidden; /* Prevent scrolling */
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  margin: 0;
+  font-family: sans-serif;
+}
+.xp-text-shadow {
+  text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.6);
+}
+/* Custom Scrollbar for DevShell (Optional) */
+.custom-scrollbar-devshell::-webkit-scrollbar {
+  width: 8px; /* width of the scrollbar */
+}
+
+.custom-scrollbar-devshell::-webkit-scrollbar-track {
+  background: #333; /* color of the tracking area */
+}
+
+.custom-scrollbar-devshell::-webkit-scrollbar-thumb {
+  background-color: #0f0; /* color of the scroll thumb */
+  border-radius: 4px; /* roundness of the scroll thumb */
+  border: 2px solid #333; /* creates padding around scroll thumb */
+}
+
+/* For Firefox */
+.custom-scrollbar-devshell {
+  scrollbar-width: thin;
+  scrollbar-color: #0f0 #333;
+}
+
+/* Custom Styles for XP Calculator */
+
+/* Font for XP Calculator (optional, if you have a custom font) */
+/* @font-face {
+  font-family: 'WindowsXP';
+  src: url('/fonts/WindowsXP.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+} */
+
+.font-xp {
+    font-family: Arial, sans-serif; /* Default to Arial or load a custom XP font */
+}
+
+/* Base button styles */
+.btn-calc-xp {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    font-size: 1.25rem; /* text-xl */
+    font-weight: bold;
+    border: 1px solid #808080; /* Standard button border */
+    border-radius: 2px; /* Slight rounded corners */
+    cursor: pointer;
+    background: linear-gradient(to bottom, #ECE9D8, #D4D0C8); /* Light gray gradient */
+    color: #000;
+    box-shadow: inset 0 0 0 1px rgba(255,255,255,0.7), 0 1px 0 rgba(0,0,0,0.2); /* Inset highlight and bottom shadow */
+    transition: background-color 0.1s ease-in-out, transform 0.05s ease-out;
+}
+
+.btn-calc-xp:hover {
+    background: linear-gradient(to bottom, #DCD9D4, #C6C3BD); /* Slightly darker on hover */
+    box-shadow: inset 0 0 0 1px rgba(255,255,255,0.7), 0 1px 0 rgba(0,0,0,0.2);
+}
+
+.btn-calc-xp:active {
+    background: linear-gradient(to top, #DCD9D4, #C6C3BD); /* Invert gradient on active */
+    transform: translateY(1px);
+    box-shadow: inset 0 0 0 1px rgba(255,255,255,0.7), inset 0 1px 0 rgba(0,0,0,0.2); /* Flat shadow on press */
+    border-color: #6C6C6C; /* Darker border on press */
+}
+
+/* Specific button styles */
+.btn-calc-xp.num {
+    color: #000;
+    /* Default button styling */
+}
+
+.btn-calc-xp.op {
+    color: #F00; /* Red for operators */
+}
+
+.btn-calc-xp.func {
+    color: #000;
+    /* Default button styling */
+}
+
+.btn-calc-xp.equals {
+    color: #FFF; /* White text for equals button */
+    background: linear-gradient(to bottom, #4A7FD3, #3667B7); /* Blue gradient for equals */
+    border-color: #2F579E;
+    box-shadow: inset 0 0 0 1px rgba(255,255,255,0.7), 0 1px 0 rgba(0,0,0,0.2);
+}
+
+.btn-calc-xp.equals:hover {
+    background: linear-gradient(to bottom, #5B92E6, #4175C9); /* Darker blue on hover */
+}
+
+.btn-calc-xp.equals:active {
+    background: linear-gradient(to top, #5B92E6, #4175C9); /* Invert blue on active */
+    transform: translateY(1px);
+    border-color: #264A8D;
+    box-shadow: inset 0 0 0 1px rgba(255,255,255,0.7), inset 0 1px 0 rgba(0,0,0,0.2);
+}
+
+/* Custom Styles for XP Calendar */
+
+/* Base container for calendar days */
+.calendar-day-xp {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 30px; /* Fixed height for each day cell */
+    border: 1px solid #7B8BBA; /* Darker border for cells */
+    background-color: #EFEFEF; /* Default cell background */
+    color: #000;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.1s ease-in-out, border-color 0.1s ease-in-out;
+    box-shadow: inset 0 0 0 1px rgba(255,255,255,0.7); /* Inset highlight */
+}
+
+.calendar-day-xp:hover {
+    background-color: #DDEBFD; /* Light blue on hover */
+    border-color: #92B0DD;
+}
+
+.calendar-day-xp:active {
+    background-color: #CADDF5; /* Darker blue on active */
+    border-color: #6A99D5;
+}
+
+.calendar-day-xp.empty {
+    background-color: #E0E0E0; /* Lighter grey for empty cells */
+    border-color: #B0B0B0;
+    cursor: default;
+    box-shadow: none; /* No highlight for empty cells */
+}
+
+/* Today's Date */
+.calendar-day-xp.today {
+    background-color: #6CA3D9; /* XP-like blue for today */
+    color: #FFF;
+    border-color: #4A7FD3;
+    box-shadow: inset 0 0 0 1px rgba(255,255,255,0.7);
+}
+
+.calendar-day-xp.today:hover {
+    background-color: #79B0E9;
+    border-color: #558EDF;
+}
+
+/* Selected Date */
+.calendar-day-xp.selected {
+    background-color: #FFC000; /* Amber/Orange for selected */
+    color: #000;
+    border-color: #E0A000;
+    box-shadow: inset 0 0 0 1px rgba(255,255,255,0.7);
+}
+
+.calendar-day-xp.selected.today {
+    background-color: #FFC000; /* Still amber if today and selected */
+    color: #000;
+    border-color: #E0A000;
+}
+
+/* Day with Event */
+.calendar-day-xp.has-event {
+    border-bottom: 3px solid #8B0000; /* Red underline for events */
+    position: relative; /* For the dot */
+}
+
+.calendar-day-xp.has-event::after {
+    content: '';
+    position: absolute;
+    top: 3px; /* Position the dot */
+    right: 3px;
+    width: 5px;
+    height: 5px;
+    background-color: #FF0000; /* Red dot for event */
+    border-radius: 50%;
+}
+
+/* Navigation Buttons (< >) */
+.btn-calendar-nav {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    background: linear-gradient(to bottom, #ECE9D8, #D4D0C8);
+    border: 1px solid #808080;
+    border-radius: 2px;
+    font-size: 1rem;
+    font-weight: bold;
+    color: #000;
+    cursor: pointer;
+    box-shadow: inset 0 0 0 1px rgba(255,255,255,0.7), 0 1px 0 rgba(0,0,0,0.2);
+    transition: background-color 0.1s ease-in-out, transform 0.05s ease-out;
+}
+
+.btn-calendar-nav:hover {
+    background: linear-gradient(to bottom, #DCD9D4, #C6C3BD);
+}
+
+.btn-calendar-nav:active {
+    background: linear-gradient(to top, #DCD9D4, #C6C3BD);
+    transform: translateY(1px);
+    box-shadow: inset 0 0 0 1px rgba(255,255,255,0.7), inset 0 1px 0 rgba(0,0,0,0.2);
+    border-color: #6C6C6C;
+}
+
+/* Month/Year Dropdowns */
+.calendar-dropdown {
+    -webkit-appearance: none; /* Remove default arrow for custom styling */
+    -moz-appearance: none;
+    appearance: none;
+    background: url('/xp-icons/dropdown-arrow.png') no-repeat right 5px center; /* Custom arrow for XP look */
+    background-size: 10px;
+    background-color: #FFF;
+    border: 1px solid #808080;
+    padding: 2px 20px 2px 5px;
+    border-radius: 2px;
+    font-size: 0.875rem; /* text-sm */
+    color: #000;
+    cursor: pointer;
+    box-shadow: inset 0 0 0 1px rgba(255,255,255,0.7);
+    outline: none;
+}
+
+.calendar-dropdown:focus {
+    border-color: #4A7FD3; /* Blue border on focus */
+}
+
+/* Today Button */
+.btn-calendar-today {
+    padding: 4px 10px;
+    background: linear-gradient(to bottom, #D4D0C8, #BCBCC0);
+    border: 1px solid #808080;
+    border-radius: 2px;
+    font-size: 0.875rem;
+    font-weight: bold;
+    color: #000;
+    cursor: pointer;
+    box-shadow: inset 0 0 0 1px rgba(255,255,255,0.7), 0 1px 0 rgba(0,0,0,0.2);
+    transition: background-color 0.1s ease-in-out, transform 0.05s ease-out;
+}
+
+.btn-calendar-today:hover {
+    background: linear-gradient(to bottom, #C6C3BD, #B0B0B0);
+}
+
+.btn-calendar-today:active {
+    background: linear-gradient(to top, #C6C3BD, #B0B0B0);
+    transform: translateY(1px);
+    box-shadow: inset 0 0 0 1px rgba(255,255,255,0.7), inset 0 1px 0 rgba(0,0,0,0.2);
+    border-color: #6C6C6C;
+}
+
+/* Event Action Buttons */
+.btn-calendar-action {
+    padding: 3px 8px;
+    background: linear-gradient(to bottom, #D4D0C8, #BCBCC0);
+    border: 1px solid #808080;
+    border-radius: 2px;
+    font-size: 0.8rem;
+    font-weight: bold;
+    color: #000;
+    cursor: pointer;
+    box-shadow: inset 0 0 0 1px rgba(255,255,255,0.7), 0 1px 0 rgba(0,0,0,0.2);
+    transition: background-color 0.1s ease-in-out, transform 0.05s ease-out;
+}
+
+.btn-calendar-action:hover {
+    background: linear-gradient(to bottom, #C6C3BD, #B0B0B0);
+}
+
+.btn-calendar-action:active {
+    background: linear-gradient(to top, #C6C3BD, #B0B0B0);
+    transform: translateY(1px);
+    box-shadow: inset 0 0 0 1px rgba(255,255,255,0.7), inset 0 1px 0 rgba(0,0,0,0.2);
+    border-color: #6C6C6C;
+}
+
+.btn-calendar-action.delete {
+    background: linear-gradient(to bottom, #FF8080, #E06060);
+    border-color: #C04040;
+}
+.btn-calendar-action.delete:hover {
+    background: linear-gradient(to bottom, #FF9090, #E87070);
+}
+.btn-calendar-action.delete:active {
+    background: linear-gradient(to top, #FF9090, #E87070);
+    border-color: #A03030;
+}
+
+/* Mobile Safe Adjustments */
+@media (max-width: 640px) {
+  .calendar-day-xp {
+    font-size: 0.75rem;
+    height: 24px;
+  }
+
+  .btn-calendar-nav, .calendar-dropdown {
+    font-size: 0.75rem;
+  }
+}
+.calendar-day-xp,
+.btn-calendar-nav,
+.calendar-dropdown,
+.btn-calendar-today,
+.btn-calendar-action {
+  transition: all 0.15s ease;
+}
+
+/* --- Windows XP Taskbar Styles --- */
+
+/* Taskbar Background (No change needed here from previous) */
+.bg-xp-taskbar {
+    background: linear-gradient(to top, #245DCF, #3D85E5); /* Deep blue gradient */
+}
+.border-xp-taskbar-border {
+    border-color: #0A367E; /* Darker blue border */
+}
+
+/* Start Button - MODIFIED */
+.start-button-xp {
+    display: flex;
+    align-items: center;
+    /* Adjusted padding to make it a bit narrower on the left */
+    padding: 2px 10px 2px 6px; 
+    height: 28px;
+    background: linear-gradient(to bottom, #74A536, #5E8F1F); /* Green gradient */
+    border: 1px solid #365011; /* Dark green border */
+    /* Only border-radius on the right, remove other radius properties */
+    border-top-right-radius: 12px;
+    border-bottom-right-radius: 12px;
+    border-top-left-radius: 2px; /* Slight, almost imperceptible rounding */
+    border-bottom-left-radius: 2px; /* Slight, almost imperceptible rounding */
+    box-shadow: 1px 1px 2px rgba(0,0,0,0.4);
+    color: white;
+    font-size: 0.9rem;
+    font-weight: bold;
+    cursor: pointer;
+    text-shadow: 1px 1px 1px rgba(0,0,0,0.6);
+    transition: all 0.1s ease-in-out;
+    /* Adding a subtle inner border/shadow for concavity */
+    position: relative; /* Needed for pseudo-element */
+    overflow: hidden; /* Ensure inner elements don't escape */
+    left: 2px; /* Slight offset into the taskbar */
+}
+
+.start-button-xp::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border-top: 1px solid rgba(255,255,255,0.4); /* Top highlight */
+    border-left: 1px solid rgba(255,255,255,0.4); /* Left highlight */
+    border-bottom: 1px solid rgba(0,0,0,0.2); /* Bottom shadow */
+    border-radius: inherit; /* Inherit button's border-radius */
+    pointer-events: none; /* Make it non-interactive */
+}
+
+.start-button-xp:hover {
+    background: linear-gradient(to bottom, #82B344, #6AA02D);
+    box-shadow: 1px 1px 3px rgba(0,0,0,0.5);
+}
+
+.start-button-xp:active {
+    background: linear-gradient(to top, #74A536, #5E8F1F);
+    transform: translateY(1px);
+    box-shadow: inset 0 0 5px rgba(0,0,0,0.3); /* Inner shadow on press */
+    border-color: #2F420B;
+    /* Adjust pseudo-element for pressed state */
+    left: 3px; /* More pressed in */
+}
+
+.start-button-xp:active::before {
+    border-top: 1px solid rgba(0,0,0,0.2); /* Darker top */
+    border-left: 1px solid rgba(0,0,0,0.2); /* Darker left */
+    border-bottom: 1px solid rgba(255,255,255,0.4); /* Lighter bottom */
+}
+
+
+/* Taskbar Buttons (Open Windows) - (No change needed here from previous) */
+.taskbar-button-xp {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    height: 24px;
+    min-width: 80px;
+    max-width: 160px;
+    padding: 0 6px;
+    background: linear-gradient(to bottom, #D4E0F4, #B7CDEE);
+    border: 1px solid #7398D0;
+    border-radius: 3px;
+    color: #000;
+    font-size: 0.7rem;
+    font-family: 'Tahoma', sans-serif;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: inset 0 0 0 1px rgba(255,255,255,0.7), 1px 1px 2px rgba(0,0,0,0.2);
+    transition: background-color 0.1s ease-in-out, border-color 0.1s ease-in-out;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.taskbar-button-xp:hover {
+    background: linear-gradient(to bottom, #C2D6F0, #A0BFDF);
+    border-color: #618BC9;
+}
+
+.taskbar-button-xp.focused {
+    background: linear-gradient(to top, #3667B7, #4A7FD3);
+    border-color: #2F579E;
+    color: white;
+    text-shadow: 1px 1px 1px rgba(0,0,0,0.5);
+    box-shadow: inset 0 0 0 1px rgba(255,255,255,0.7);
+}
+
+.taskbar-button-xp.focused:hover {
+    background: linear-gradient(to top, #4175C9, #5B92E6);
+}
+
+.taskbar-button-xp.minimized {
+    opacity: 0.7;
+}
+
+.taskbar-button-xp.minimized:hover {
+    opacity: 1;
+}
+
+/* System Tray Area (No change needed here from previous) */
+.bg-xp-tray-bg {
+    background: linear-gradient(to top, #3361AF, #3D85E5);
+    box-shadow: inset 1px 1px 3px rgba(0,0,0,0.3);
+}
+.border-xp-tray-border {
+    border-left: 1px solid #1A4D9A;
+    border-right: 1px solid #0A367E;
+    border-top: 1px solid #1A4D9A;
+    border-bottom: 1px solid #0A367E;
+}
+
+/* Clock Text Color (No change needed here from previous) */
+.text-xp-clock-blue {
+    color: #A3C4FA;
+}
+
+/* Optional: Custom scrollbar for taskbar (No change needed here from previous) */
+.custom-scrollbar-taskbar::-webkit-scrollbar {
+  height: 4px;
+}
+
+.custom-scrollbar-taskbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.custom-scrollbar-taskbar::-webkit-scrollbar-thumb {
+  background-color: rgba(255, 255, 255, 0.3);
+  border-radius: 2px;
+}
+
+.custom-scrollbar-taskbar::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(255, 255, 255, 0.5);
+}
+
+/* For Firefox */
+.custom-scrollbar-taskbar {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.3) transparent;
+}
+
+/* Base XP-like font for the whole app or specific elements */
+body {
+  font-family: 'Tahoma', 'Geneva', sans-serif;
+}
+
+/* Custom Scrollbar for overflow-y-auto elements */
+/* For Webkit browsers (Chrome, Safari) */
+.xp-scrollbar::-webkit-scrollbar {
+  width: 14px;
+  height: 14px;
+}
+
+.xp-scrollbar::-webkit-scrollbar-track {
+  background: #f0f0f0; /* Light gray track */
+  border: 1px solid #c0c0c0; /* Border to simulate depth */
+}
+
+.xp-scrollbar::-webkit-scrollbar-thumb {
+  background-color: #8c8c8c; /* Darker gray thumb */
+  border: 1px solid #7c7c7c; /* Border for thumb */
+  border-radius: 0px; /* Square corners for XP */
+  box-shadow: inset 1px 1px 2px rgba(255,255,255,0.5), inset -1px -1px 2px rgba(0,0,0,0.3); /* 3D effect */
+}
+
+.xp-scrollbar::-webkit-scrollbar-thumb:hover {
+  background-color: #7a7a7a;
+}
+
+/* Optional: Scrollbar for horizontal scrolling (if needed) */
+.xp-scrollbar::-webkit-scrollbar-corner {
+  background: #c0c0c0; /* Match track background or use a neutral color */
+}
+
+
+/* For Firefox */
+.xp-scrollbar {
+  scrollbar-width: thin; /* "auto" or "thin" */
+  scrollbar-color: #8c8c8c #f0f0f0; /* thumb color track color */
+}
+
+/* General XP-like button/panel borders */
+.xp-panel-border {
+  border: 1px solid #7B7B7B;
+  border-right-color: #fff;
+  border-bottom-color: #fff;
+}
+
+.xp-panel-border-inset {
+  border: 1px solid #fff;
+  border-right-color: #7B7B7B;
+  border-bottom-color: #7B7B7B;
+}
+
+/* Text shadow for headings */
+.xp-text-shadow {
+  text-shadow: 1px 1px 0px rgba(0,0,0,0.2);
+}
+
+/* --- Contact Form Specific Styles --- */
+
+/* XP-style input fields */
+.xp-input {
+  width: 100%;
+  padding: 4px 6px; /* Smaller padding for XP feel */
+  border: 1px solid #7F9DB9; /* XP input border color */
+  background-color: #FFFFFF;
+  font-size: 0.875rem; /* text-sm */
+  color: #000;
+  box-shadow: inset 1px 1px 2px rgba(0,0,0,0.2); /* Inset shadow */
+  outline: none; /* Remove default outline */
+  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+.xp-input:focus {
+  border-color: #4A7FD3; /* Blue border on focus */
+  box-shadow: inset 1px 1px 2px rgba(0,0,0,0.2), 0 0 0 1px #4A7FD3; /* Subtle blue glow */
+}
+
+/* XP-style textarea */
+.xp-textarea {
+  width: 100%;
+  padding: 4px 6px;
+  border: 1px solid #7F9DB9;
+  background-color: #FFFFFF;
+  font-size: 0.875rem;
+  color: #000;
+  box-shadow: inset 1px 1px 2px rgba(0,0,0,0.2);
+  outline: none;
+  resize: vertical;
+  min-height: 80px; /* Inherit input styles */
+  resize: vertical; /* Allow only vertical resizing */
+  min-height: 80px; /* Minimum height for textarea */
+}
+
+/* XP-style primary button (Send Message) */
+.xp-button-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px 16px;
+  background: linear-gradient(to bottom, #74A536, #5E8F1F); /* Green gradient */
+  border: 1px solid #365011; /* Dark green border */
+  border-radius: 3px;
+  color: white;
+  font-size: 0.875rem; /* text-sm */
+  font-weight: bold;
+  cursor: pointer;
+  text-shadow: 1px 1px 1px rgba(0,0,0,0.6);
+  box-shadow: 1px 1px 2px rgba(0,0,0,0.4);
+  transition: all 0.1s ease-in-out;
+}
+
+.xp-button-primary:hover {
+  background: linear-gradient(to bottom, #82B344, #6AA02D);
+  box-shadow: 1px 1px 3px rgba(0,0,0,0.5);
+}
+
+.xp-button-primary:active {
+  background: linear-gradient(to top, #74A536, #5E8F1F);
+  transform: translateY(1px);
+  box-shadow: inset 0 0 5px rgba(0,0,0,0.3);
+  border-color: #2F420B;
+}
+
+.xp-button-primary:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  background: linear-gradient(to bottom, #C0C0C0, #A0A0A0);
+  border-color: #808080;
+  box-shadow: none;
+  text-shadow: none;
+}
+
+
+.xp-card-outset {
+  border: 1px solid #7B7B7B; /* Darker border */
+  border-right-color: #fff;  /* Lighter right */
+  border-bottom-color: #fff; /* Lighter bottom */
+  box-shadow: 2px 2px 5px rgba(0,0,0,0.4); /* Soft outset shadow */
+}
+
+/* XP-style clickable button/link within a card */
+.xp-card-link-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem; /* Equivalent to gap-1 */
+  padding: 2px 8px; /* Smaller padding */
+  background: linear-gradient(to bottom, #ECE9D8, #D4D0C8); /* Light gray gradient */
+  border: 1px solid #808080; /* Gray border */
+  border-radius: 2px;
+  font-size: 0.75rem; /* text-xs */
+  font-weight: 500;
+  color: #000;
+  cursor: pointer;
+  text-shadow: none; /* No text shadow for these small buttons */
+  box-shadow: 1px 1px 1px rgba(0,0,0,0.2); /* Small outset shadow */
+  transition: all 0.05s ease-out; /* Quick transition */
+}
+
+.xp-card-link-button:hover {
+  background: linear-gradient(to bottom, #DCD9D4, #C6C3BD); /* Slightly darker on hover */
+  box-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+}
+
+.xp-card-link-button:active {
+  background: linear-gradient(to top, #ECE9D8, #D4D0C8); /* Inset effect on active */
+  transform: translateY(0.5px); /* Slight press effect */
+  box-shadow: inset 1px 1px 2px rgba(0,0,0,0.3);
+  border-color: #A0A0A0; /* Change border on active */
+}
+
+/* XP-style image border (optional, for framed look) */
+.xp-image-frame {
+  border: 2px solid #808080; /* Gray border */
+  box-shadow: inset 1px 1px 2px rgba(0,0,0,0.2), 0 0 0 1px #D4D0C8; /* Inner inset, outer light border */
+}
+
+.xp-download-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem; /* Equivalent to gap-2 */
+  padding: 0.25rem 1rem; /* px-4 py-1 */
+  background: linear-gradient(to bottom, #ECE9D8, #D4D0C8); /* Light gray gradient */
+  border: 1px solid #808080; /* Gray border */
+  border-right-color: #fff; /* Outset effect */
+  border-bottom-color: #fff; /* Outset effect */
+  border-radius: 2px; /* Subtle rounding */
+  font-size: 0.875rem; /* text-sm */
+  font-weight: bold;
+  color: #000;
+  cursor: pointer;
+  box-shadow: 1px 1px 2px rgba(0,0,0,0.3); /* Subtle shadow */
+  transition: all 0.05s ease-out; /* Quick transition for responsiveness */
+  text-decoration: none; /* Remove underline from a tag */
+  white-space: nowrap; /* Prevent text wrapping */
+}
+
+.xp-download-button:hover {
+  background: linear-gradient(to bottom, #DCD9D4, #C6C3BD); /* Slightly darker on hover */
+  box-shadow: 1px 1px 3px rgba(0,0,0,0.4);
+}
+
+.xp-download-button:active {
+  background: linear-gradient(to top, #ECE9D8, #D4D0C8); /* Inset effect on active */
+  transform: translateY(0.5px); /* Slight press effect */
+  box-shadow: inset 1px 1px 2px rgba(0,0,0,0.3);
+  border-color: #A0A0A0; /* Change border on active */
+  border-right-color: #808080; /* Inset effect */
+  border-bottom-color: #808080; /* Inset effect */
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Spinner Styles */
+.spinner {
+  display: inline-block;
+  width: 40px; /* Adjust size as needed */
+  height: 40px; /* Adjust size as needed */
+  border: 4px solid rgba(255, 255, 255, 0.3); /* Light border */
+  border-top-color: #fff; /* White top border for spinning effect */
+  border-radius: 50%; /* Make it a circle */
+  animation: spin 1s linear infinite; /* Apply the animation */
 }
