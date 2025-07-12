@@ -1,5 +1,6 @@
 import React from 'react';
 import { Project } from '@/lib/data/projects';
+import Image from "next/image";
 
 interface ProjectDetailWindowProps {
   project: Project;
@@ -10,10 +11,13 @@ const ProjectDetailWindow: React.FC<ProjectDetailWindowProps> = ({ project }) =>
     <div className="p-4 h-full overflow-y-auto font-xp bg-[#ECE9D8] custom-scrollbar-devshell text-sm">
       {/* Project Image */}
       <div className="text-center mb-4">
-        <img
+        <Image
           src={project.image.src.src}
           alt={project.image.alt}
           className="mx-auto max-w-full max-h-64 object-contain border border-gray-400 shadow-inner bg-white p-1"
+          width={640}
+          height={360}
+          loading="lazy"
         />
       </div>
 

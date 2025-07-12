@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useWindowStore } from '@/lib/store/windowStore';
 import moment from 'moment'; // For date/time formatting
+import Image from "next/image";
 
 interface TaskbarProps {
   onStartButtonClick: () => void;
@@ -34,7 +35,7 @@ const Taskbar: React.FC<TaskbarProps> = ({ onStartButtonClick }) => {
         onClick={onStartButtonClick}
         className="start-button-xp"
       >
-        <img src="/xp-icons/start-icon.svg" alt="Start" className="w-4 h-4 mr-1" />
+        <Image src="/xp-icons/start-icon.svg" alt="Start" className="w-4 h-4 mr-1" width={16} height={16} loading="lazy" />
         <span>Start</span>
       </button>
 
@@ -50,7 +51,7 @@ const Taskbar: React.FC<TaskbarProps> = ({ onStartButtonClick }) => {
               // Apply XP-specific taskbar button styles
               className={`taskbar-button-xp ${win.focused ? 'focused' : ''} ${win.minimized ? 'minimized' : ''}`}
             >
-              <img src={iconSrc} alt={win.title} className="w-4 h-4 mr-1 flex-shrink-0" />
+              <Image src={iconSrc} alt={win.title} className="w-4 h-4 mr-1 flex-shrink-0" width={16} height={16} loading="lazy" />
               <span className="truncate">{win.title}</span> {/* Truncate long titles */}
             </button>
           );
@@ -62,7 +63,7 @@ const Taskbar: React.FC<TaskbarProps> = ({ onStartButtonClick }) => {
         {/* Placeholder for other system tray icons */}
         <div className="flex items-center space-x-1 mr-2">
             {/* Example: Speaker icon */}
-            <img src="/xp-icons/speaker-icon.png" alt="Speaker" className="w-4 h-4" />
+            <Image src="/xp-icons/speaker-icon.png" alt="Speaker" className="w-4 h-4" width={16} height={16} loading="lazy" />
         </div>
         
         {/* Actual functional clock */}

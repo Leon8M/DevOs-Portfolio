@@ -2,6 +2,7 @@ import React from 'react';
 import { motion } from 'framer-motion'; // Import motion
 import { experience } from '@/lib/data/experience'; // Updated data import
 import SectionHeader from '@/components/common/SectionHeader'; // Assuming common SectionHeader
+import Image from "next/image";
 
 const Experience: React.FC = () => {
   // Animation variants
@@ -39,7 +40,7 @@ const Experience: React.FC = () => {
             className="bg-white p-4 rounded-sm shadow-[inset_1px_1px_2px_rgba(0,0,0,0.3)] border xp-panel-border-inset flex items-start gap-3"
             variants={itemVariants}
           >
-            <img src={item.icon} alt={item.company} className="w-6 h-6 flex-shrink-0 mt-1" />
+            <Image src={item.icon} alt={item.company} className="w-6 h-6 flex-shrink-0 mt-1" width={24} height={24} loading="lazy" />
             <div>
               <h3 className="text-lg font-bold text-[#2F4F4F]">{item.role} at {item.company}</h3>
               <p className="text-gray-600 text-xs italic mb-1">{item.duration}</p>

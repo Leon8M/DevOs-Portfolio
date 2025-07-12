@@ -2,6 +2,7 @@ import React from 'react';
 import { motion } from 'framer-motion'; // Import motion
 import { education } from '@/lib/data/education'; // Updated data import
 import SectionHeader from '@/components/common/SectionHeader'; // Assuming common SectionHeader
+import Image from "next/image";
 
 const Education: React.FC = () => {
   // Animation variants
@@ -39,7 +40,7 @@ const Education: React.FC = () => {
             className="bg-white p-4 rounded-sm shadow-[inset_1px_1px_2px_rgba(0,0,0,0.3)] border xp-panel-border-inset flex items-start gap-3"
             variants={itemVariants}
           >
-            <img src={item.icon} alt={item.institution} className="w-6 h-6 flex-shrink-0 mt-1" />
+            <Image src={item.icon} alt={item.institution} className="w-6 h-6 flex-shrink-0 mt-1" width={24} height={24} loading="lazy" />
             <div>
               <h3 className="text-lg font-bold text-[#2F4F4F]">{item.degree}</h3>
               <p className="text-gray-800 text-sm italic">{item.institution}</p>

@@ -1,5 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
+import Image from "next/image";
 
 interface AppIconProps {
   title: string;
@@ -15,7 +16,7 @@ const AppIcon: React.FC<AppIconProps> = ({ title, iconSrc, onClick }) => {
       whileTap={{ scale: 0.95 }}
       onClick={onClick}
     >
-      <img src={iconSrc} alt={title} className="w-10 h-10 mb-1" />
+      <Image src={iconSrc} alt={title} className="w-10 h-10 mb-1" width={40} height={40} loading="lazy" />
       <span>{title}</span>
     </motion.div>
   );

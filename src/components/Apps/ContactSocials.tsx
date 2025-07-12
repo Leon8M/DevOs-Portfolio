@@ -1,4 +1,5 @@
 import React from 'react';
+import Image from "next/image";
 
 const socialLinks = [
   { name: 'Email', user: 'leonmunene254@gmail.com', url: 'mailto:leonmunene254@gmail.com', icon: '/xp-icons/contact-me-icon.png' },
@@ -19,7 +20,7 @@ const ContactSocials: React.FC = () => {
         {socialLinks.map((link) => (
           <div key={link.name} className="flex items-center justify-between px-3 py-2 border-b last:border-b-0">
             <div className="flex items-center space-x-3">
-              <img src={link.icon} alt={link.name} className="w-7 h-7" />
+              <Image src={link.icon} alt={link.name} className="w-7 h-7" width={28} height={28} loading="lazy" />
               <div>
                 <p className="font-bold">{link.name}</p>
                 <p className="text-xs text-gray-600">{link.user}</p>

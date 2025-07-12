@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Rnd, RndDragCallback, RndResizeCallback } from 'react-rnd';
 import { useWindowStore } from '@/lib/store/windowStore';
+import Image from "next/image";
 
 // Helper to check for mobile screen size
 const useIsMobile = () => {
@@ -148,7 +149,7 @@ const Window: React.FC<WindowProps> = ({
         <div className="flex items-center text-sm h-8 border-b border-gray-300 px-2 space-x-2 bg-gradient-to-b from-[#f5f5f5] to-[#dcdcdc] flex-shrink-0">
           <span className="text-gray-500">Address</span>
           <div className="flex-grow flex items-center bg-white border border-gray-400 h-6 px-1">
-            <img src="/xp-icons/projects-icon.png" alt="address-icon" className="w-4 h-4 mr-1" />
+            <Image src="/xp-icons/projects-icon.png" alt="address-icon" className="w-4 h-4 mr-1" width={16} height={16} loading="lazy" />
             <input
               type="text"
               defaultValue={`C:\\Users\\Guest\\Documents\\${title.replace(/\s+/g, '')}`}
@@ -186,7 +187,7 @@ const IconButton: React.FC<{ icon: string; alt: string; onClick: () => void; isC
                 : 'bg-gradient-to-b from-[#7192E5] to-[#4B75D2] hover:from-[#8AA9F2] hover:to-[#6087D9] border-[#2C4B8E]'
         }`}
     >
-        <img src={icon} alt={alt} className="w-4 h-4" />
+        <Image src={icon} alt={alt} className="w-4 h-4" width={16} height={16} loading="lazy" />
     </button>
 );
 

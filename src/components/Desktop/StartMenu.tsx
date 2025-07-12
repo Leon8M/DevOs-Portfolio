@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { useWindowStore } from '@/lib/store/windowStore';
+import Image from "next/image";
 
 // Import your existing app components
 import Projects from '@/components/Apps/Projects';
@@ -63,7 +64,7 @@ const MenuItem = ({ item, onClick }: { item: AppItem; onClick: () => void; }) =>
         onClick={onClick}
         className="flex items-center gap-3 px-3 py-1.5 hover:bg-[#316ac5] hover:text-white cursor-pointer transition-colors duration-150"
     >
-        <img src={item.icon} alt={item.label} className={item.isFeatured ? "w-8 h-8" : "w-6 h-6"} />
+        <Image src={item.icon} alt={item.label} className={item.isFeatured ? "w-8 h-8" : "w-6 h-6"} width={32} height={32} loading="lazy" />
         <span className={item.isFeatured ? "font-bold" : ""}>{item.label}</span>
     </li>
 );
@@ -167,7 +168,7 @@ const StartMenu: React.FC<{ isOpen: boolean; onClose: () => void; }> = ({ isOpen
             {/* Header */}
             <header className="flex items-center gap-3 p-2 bg-gradient-to-b from-[#084ac1] via-[#1c64d1] to-[#2575e9]">
                 <div className="w-12 h-12 bg-white border border-gray-300 rounded-sm flex items-center justify-center">
-                    <img src="/xp-icons/user-avatar.jpg" alt="User" className="w-11 h-11" />
+                    <Image src="/xp-icons/user-avatar.jpg" alt="User" className="w-11 h-11" width={44} height={44} loading="lazy" />
                 </div>
                 <span className="font-bold text-white text-lg shadow-black/50 [text-shadow:_1px_1px_2px_var(--tw-shadow-color)]">
                     Leon Munene
@@ -207,11 +208,11 @@ const StartMenu: React.FC<{ isOpen: boolean; onClose: () => void; }> = ({ isOpen
             {/* Footer */}
             <footer className="flex justify-end items-center gap-4 p-2 bg-gradient-to-b from-[#084ac1] via-[#1c64d1] to-[#2575e9] border-t border-white/50">
                 <button onClick={onClose} className="flex items-center gap-1.5 text-white">
-                    <img src="/xp-icons/logout-icon.png" alt="Log Off" className="w-5 h-5" />
+                    <Image src="/xp-icons/logout-icon.png" alt="Log Off" className="w-5 h-5" width={20} height={20} loading="lazy" />
                     <span className="font-semibold text-shadow-sm">Log Off</span>
                 </button>
                 <button onClick={handleShutdown} className="flex items-center gap-1.5 text-white">
-                    <img src="/xp-icons/shutdown-icon.png" alt="Turn Off Computer" className="w-5 h-5" />
+                    <Image src="/xp-icons/shutdown-icon.png" alt="Turn Off Computer" className="w-5 h-5" width={20} height={20} loading="lazy" />
                     <span className="font-semibold">Turn Off</span>
                 </button>
             </footer>

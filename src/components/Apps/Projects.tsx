@@ -2,6 +2,7 @@ import React from 'react';
 import { projects } from '@/lib/data/projects'; // Assuming this path is correct
 import { useWindowStore } from '@/lib/store/windowStore'; // Assuming this path is correct
 import ProjectDetailWindow from './ProjectDetailWindow'; // Assuming this path is correct
+import Image from "next/image";
 
 const Projects: React.FC = () => {
   const { addWindow } = useWindowStore();
@@ -40,10 +41,13 @@ const Projects: React.FC = () => {
           >
             {/* Image Container - fixed aspect ratio and XP border */}
             <div className="w-full relative pt-[56.25%] mb-2 border xp-image-frame bg-gray-200"> {/* 16:9 aspect ratio, gray background fallback */}
-              <img
+              <Image
                 src={project.image.src.src} /* Assuming project.image.src.src is the correct path */
                 alt={project.image.alt}
                 className="absolute top-0 left-0 w-full h-full object-cover" /* Ensure image covers the div */
+                width={640}
+                height={360}
+                loading="lazy"
               />
             </div>
 
@@ -75,7 +79,7 @@ const Projects: React.FC = () => {
                     onClick={(e) => e.stopPropagation()} /* Prevent card click when clicking link */
                     className="xp-card-link-button"
                   >
-                    <img src="/xp-icons/github-icon.png" alt="GitHub" className="w-3 h-3" /> {/* Add icon */}
+                    <Image src="/xp-icons/github-icon.png" alt="GitHub" className="w-3 h-3" width={12} height={12} loading="lazy" /> {/* Add icon */}
                     GitHub
                   </a>
                 )}
@@ -87,7 +91,7 @@ const Projects: React.FC = () => {
                     onClick={(e) => e.stopPropagation()} /* Prevent card click when clicking link */
                     className="xp-card-link-button"
                   >
-                    <img src="/xp-icons/website-icon.png" alt="Live Demo" className="w-3 h-3" /> {/* Add icon */}
+                    <Image src="/xp-icons/website-icon.png" alt="Live Demo" className="w-3 h-3" width={12} height={12} loading="lazy" /> {/* Add icon */}
                     Live Demo
                   </a>
                 )}
