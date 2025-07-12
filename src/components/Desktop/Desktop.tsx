@@ -59,7 +59,7 @@ const Desktop: React.FC<DesktopProps> = ({ children }) => {
 
   return (
     <div
-      className="relative h-screen w-screen overflow-hidden bg-[url('/wallpaper.jpg')] bg-cover bg-center"
+      className="relative min-h-screen w-screen overflow-hidden bg-[url('/wallpaper.jpg')] bg-cover bg-center"
       style={{ backgroundSize: 'cover' }}
     >
       {children}

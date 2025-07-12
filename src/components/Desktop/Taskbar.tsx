@@ -29,7 +29,7 @@ const Taskbar: React.FC<TaskbarProps> = ({ onStartButtonClick }) => {
   };
 
   return (
-    <div className="absolute bottom-0 left-0 right-0 h-8 bg-xp-taskbar border-t border-xp-taskbar-border flex items-center px-1 z-50 font-xp-ui text-xs">
+    <div className="fixed bottom-0 left-0 right-0 h-8 bg-xp-taskbar border-t border-xp-taskbar-border flex items-center px-1 z-50 font-xp-ui text-xs">
       {/* Start Button */}
       <button
         onClick={onStartButtonClick}
