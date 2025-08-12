@@ -17,7 +17,7 @@ export const projects: Project[] = [
     title: "AI LearnHub",
     description: "An AI-powered platform for generating and learning from custom courses.",
     longDescription: "AI LearnHub is a fully-featured, AI-powered learning platform designed to revolutionize how educational content is created and consumed. Leveraging the advanced capabilities of **Google's Gemini API**, users can dynamically generate comprehensive courses on virtually any topic imaginable. Each generated course comes complete with meticulously detailed chapters and intelligently curated video resources from YouTube, providing a rich and interactive learning experience.",
-    website: "https://learn-with-ai-lilac.vercel.app/",
+    website: "https://kamusi.denexsoftware.co.ke/",
     github: "https://github.com/Leon8M/LearnWithAi",
     image: projectImages.learnai,
     technologies: ["Next.js", "Tailwind CSS", "Clerk", "Shadcn UI", "Google Gemini API"],
