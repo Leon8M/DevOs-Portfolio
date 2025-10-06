@@ -1,5 +1,8 @@
 import type { Metadata } from "next";
+import { Inter } from 'next/font/google';
 import "./globals.css";
+
+const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
   title: "LeonOS - XP Portfolio",
@@ -16,7 +19,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className="w-screen h-screen overflow-hidden bg-[#008080] font-['Tahoma',_sans-serif] text-sm">
+      <body className={`${inter.className} w-screen h-screen overflow-hidden bg-[#008080] font-sans text-sm`}>
         <main className="w-full h-full">{children}</main>
       </body>
     </html>

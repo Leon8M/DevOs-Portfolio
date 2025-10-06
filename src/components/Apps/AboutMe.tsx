@@ -11,15 +11,7 @@ const resumeData = {
     phone: "+254759604380",
     email: "leonmunene254@gmail.com",
   },
-  summary: `
-    Hello! I'm Leon, a passionate software developer with a knack for building engaging and efficient web applications.
-    My journey in tech started with a curiosity for how things work, which quickly evolved into a love for creating.
-    
-    Beyond the code, I'm an avid gamer who enjoys diving into virtual worlds and an enthusiastic music lover.
-    I believe in continuous learning, constantly striving to improve my skills and explore new technologies.
-    I thrive in dynamic environments and am always open to new challenges.
-    Let's connect and create something amazing!
-  `,
+  summary: `I craft high-performance, scalable apps using React, Next.js, and Django — delivering production-ready code with clean architecture.`,
 };
 
 // Section header component

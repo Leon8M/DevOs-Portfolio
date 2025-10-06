@@ -12,7 +12,7 @@ const AppIcon: React.FC<AppIconProps> = ({ title, iconSrc, onClick }) => {
   return (
     <motion.div
       className="flex flex-col items-center justify-center w-20 h-20 p-1 cursor-pointer text-white text-xs text-center"
-      whileHover={{ backgroundColor: "rgba(255,255,255,0.2)", borderRadius: "8px" }}
+      whileHover={{ backgroundColor: "rgba(255,255,255,0.2)", borderRadius: "8px", filter: "drop-shadow(0 0 5px rgba(255, 255, 255, 0.5))" }}
       whileTap={{ scale: 0.95 }}
       onClick={onClick}
     >

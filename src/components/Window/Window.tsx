@@ -108,11 +108,11 @@ const Window: React.FC<WindowProps> = ({
       disableDragging={isFullscreen}
       bounds="parent"
       dragHandleClassName="window-header"
-      className="flex flex-col rounded-t-lg overflow-hidden h-full"
+      className="flex flex-col rounded-t-lg overflow-hidden h-full backdrop-blur-sm bg-white/50"
       style={{
         zIndex: windowState.zIndex,
         border: isFullscreen ? 'none' : '1px solid #003B7C',
-        boxShadow: '2px 2px 5px rgba(0,0,0,0.3)',
+        boxShadow: isFocused ? '0 0 20px rgba(59, 130, 246, 0.5)' : '2px 2px 5px rgba(0,0,0,0.3)',
       }}
       onMouseDownCapture={handleFocus}
     >

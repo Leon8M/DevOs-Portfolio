@@ -9,32 +9,17 @@ const MyResume: React.FC = () => {
         My Resume
       </h2>
 
-      <div className="bg-white p-5 rounded-sm border xp-panel-border-inset"> {/* Applied xp-panel-border-inset */}
-        <div className="text-center mb-6">
+      <div className="bg-white p-5 rounded-sm border xp-panel-border-inset h-full flex flex-col"> {/* Applied xp-panel-border-inset */}
+        <div className="text-center mb-6 flex-shrink-0">
           <h1 className="text-2xl font-bold text-[#003B7C] xp-text-shadow">Leon Munene</h1>
           <p className="text-gray-700 text-base">Software Engineer | Full-Stack Developer</p>
         </div>
 
-        <div className="mb-6 xp-panel-border-inset p-3 bg-[#D4D0C8]"> {/* Summary in an inset panel */}
-          <h3 className="font-bold text-[#003B7C] mb-2 xp-text-shadow">Summary</h3>
-          <p className="text-gray-800 leading-relaxed">
-            Passionate software developer skilled in Python, React, NextJs, Flask, and Rust, building scalable, user-friendly solutions. With strong
-            problem-solving skills, I deliver clean, optimized code for robust applications. I also mentor peers as a Microsoft Student Ambassador
-            and Community Tech Lead. Constantly learning, I thrive in dynamic environments, open to learning new technology. Let’s collaborate
-            to bring ideas to life!
-          </p>
+        <div className="flex-grow mb-6">
+          <iframe src="/resume.pdf" width="100%" height="100%" />
         </div>
 
-        {/* You can integrate your Experience and Education components here if you wish, e.g.:
-        <div className="mb-6">
-          <Experience />
-        </div>
-        <div className="mb-6">
-          <Education />
-        </div>
-        */}
-
-        <div className="text-center mt-8">
+        <div className="text-center mt-8 flex-shrink-0">
           <motion.a
             href="/resume.pdf" // Ensure this path is correct
             download="Leon_Munene_Resume.pdf" // This suggests the default filename for the download

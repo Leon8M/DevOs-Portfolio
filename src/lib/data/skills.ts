@@ -6,11 +6,11 @@ export interface SkillCategory {
 export const skills: SkillCategory[] = [
   {
     category: "Frontend",
-    skills: ["React", "Next.js", "TypeScript", "JavaScript", "HTML", "CSS", "TailwindCSS", "Framer Motion", "Zustand", "React Context", "Shadcn UI", "Material UI", "ReactPy"],
+    skills: ["React", "Next.js", "TypeScript", "JavaScript", "HTML", "CSS", "TailwindCSS", "Framer Motion", "Zustand", "React Context", "Shadcn UI", "Material UI", "ReactPy", "Apollo"],
   },
   {
     category: "Backend",
-    skills: ["Python","Django", "Flask", "FastAPI", "MongoDB", "PostgreSQL", "RESTful APIs", "GraphQL", "Node.js"],
+    skills: ["Python","Django", "Flask", "FastAPI", "MongoDB", "PostgreSQL", "RESTful APIs", "GraphQL", "Node.js", "Celery"],
   },
   {
     category: "DevOps & Tools",

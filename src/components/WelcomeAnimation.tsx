@@ -57,6 +57,18 @@ const WelcomeAnimation: React.FC<WelcomeAnimationProps> = ({ onComplete }) => {
         </motion.div>
       )}
 
+      {/* Tagline */}
+      {showWelcomeText && (
+        <motion.div
+          className="text-sm md:text-base text-center mt-2"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.5, duration: 0.5 }}
+        >
+          I build clean, creative, and technically ambitious web experiences — meet LeonOS.
+        </motion.div>
+      )}
+
       {/* Optional: Subtle "Please wait..." text at the bottom */}
       <motion.div
         className="absolute bottom-10 w-full text-center text-xs text-white opacity-70"

@@ -19,6 +19,8 @@ import MyResume from '@/components/Apps/MyResume';
 import TechStack from '@/components/Apps/TechStack';
 import ThemeSettings from '@/components/Apps/ThemeSettings';
 import ContactSocials from '@/components/Apps/ContactSocials';
+import SystemInfo from '@/components/Apps/SystemInfo';
+import Achievements from '@/components/Apps/Achievements';
 
 
 // Define the type for our app items
@@ -44,6 +46,7 @@ const utilityApps: AppItem[] = [
     { label: 'Calculator', icon: '/xp-icons/calculator-icon.png', component: <Calculator />, defaultSize: { width: 280, height: 380 } },
     { label: 'Calendar', icon: '/xp-icons/calendar-icon.png', component: <Calendar />, defaultSize: { width: 320, height: 480 } },
     { label: 'DevShell', icon: '/xp-icons/terminal-icon.png', component: <DevShell />, defaultSize: { width: 600, height: 400 } },
+    { label: 'Achievements', icon: '/xp-icons/briefcase-icon.png', component: <Achievements />, defaultSize: { width: 400, height: 200 } },
 ];
 
 // --- System links for the right panel ---
@@ -55,6 +58,7 @@ const systemLinks: AppItem[] = [
 const settingsLinks: AppItem[] = [
     { label: 'Theme Settings', icon: '/xp-icons/control-panel-icon.png', component: <ThemeSettings />, defaultSize: { width: 400, height: 300 } },
     { label: 'Contact & Socials', icon: '/xp-icons/program-access-icon.png', component: <ContactSocials />, defaultSize: { width: 450, height: 350 } },
+    { label: 'System Info', icon: '/xp-icons/info-icon.png', component: <SystemInfo />, defaultSize: { width: 450, height: 350 } },
 ];
 
 

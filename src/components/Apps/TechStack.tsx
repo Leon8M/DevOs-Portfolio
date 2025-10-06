@@ -3,7 +3,7 @@ import React from 'react';
 const TechStack: React.FC = () => {
   const systemInfo = {
     os: "LeonOS Portfolio Edition",
-    version: "1.0 (Build 2024)",
+    version: "1.3 (Build 2025)",
     user: "Recruiter / Visitor",
   };
 

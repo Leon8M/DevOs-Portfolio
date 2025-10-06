@@ -38,6 +38,7 @@ module.exports = {
         'xp-dialog': '5px 5px 15px rgba(0,0,0,0.4)',
       },
       fontFamily: {
+        sans: ['Inter', 'sans-serif'],
         'xp-ui': ['Tahoma', 'Geneva', 'sans-serif'], // Add Tahoma as a primary UI font
       },
       // You can add more specific utility classes in globals.css if needed

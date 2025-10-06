@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { projects } from '@/lib/data/projects';
 import { useWindowStore } from '@/lib/store/windowStore'; 
 import ProjectDetailWindow from './ProjectDetailWindow'; 
@@ -6,6 +6,7 @@ import Image from "next/image";
 
 const Projects: React.FC = () => {
   const { addWindow } = useWindowStore();
+  const [filter, setFilter] = useState('All');
 
   // Function to open a project detail window
   const openProjectDetail = (project: typeof projects[0]) => { // Added type for project
@@ -16,6 +17,11 @@ const Projects: React.FC = () => {
     );
   };
 
+  const filteredProjects = projects.filter(project => {
+    if (filter === 'All') return true;
+    return project.category === filter;
+  });
+
   return (
     <div className="p-3 md:p-5 w-full h-full overflow-y-auto bg-[#ECE9D8] text-sm font-['Tahoma',_Geneva,_sans-serif] xp-scrollbar">
       {/* Main Title - Enhanced with XP text shadow */}
@@ -23,8 +29,17 @@ const Projects: React.FC = () => {
         My Projects
       </h2>
 
+      <div className="flex justify-center mb-4">
+        <div className="flex space-x-2 p-1 bg-gray-200 rounded-md">
+          <button onClick={() => setFilter('All')} className={`px-3 py-1 text-xs font-semibold rounded-md ${filter === 'All' ? 'bg-blue-500 text-white' : 'bg-gray-300'}`}>All</button>
+          <button onClick={() => setFilter('Web')} className={`px-3 py-1 text-xs font-semibold rounded-md ${filter === 'Web' ? 'bg-blue-500 text-white' : 'bg-gray-300'}`}>Web</button>
+          <button onClick={() => setFilter('AI')} className={`px-3 py-1 text-xs font-semibold rounded-md ${filter === 'AI' ? 'bg-blue-500 text-white' : 'bg-gray-300'}`}>AI</button>
+          <button onClick={() => setFilter('Full-Stack')} className={`px-3 py-1 text-xs font-semibold rounded-md ${filter === 'Full-Stack' ? 'bg-blue-500 text-white' : 'bg-gray-300'}`}>Full-Stack</button>
+        </div>
+      </div>
+
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"> {/* Increased gap for visual separation */}
-        {projects.map((project) => (
+        {filteredProjects.map((project) => (
           <div
             key={project.id}
             onClick={() => openProjectDetail(project)}
