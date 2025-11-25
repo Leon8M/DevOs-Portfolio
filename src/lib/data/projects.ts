@@ -63,6 +63,26 @@ export const projects: Project[] = [
     technologies: ["Next.js", "Tailwind CSS", "Framer Motion", "Zustand"],
     category: "Web",
   },
+    {
+  id: "cardi-multiplayer-game",
+  title: "Cardi Multiplayer Game",
+  description: "A real-time multiplayer card game built with Spring Boot and Next.js.",
+  longDescription: "Cardi is a fast-paced, rule-rich multiplayer card game implemented with a Spring Boot backend and a Next.js frontend. Players can create rooms, join with a room code, play cards, trigger special actions, draw, pass turns, and enjoy fully synchronized real-time gameplay. Featuring WebSockets, dynamic UI components, and custom game logic based on the official Cardi rules, this project showcases advanced full-stack engineering, game state management, and responsive interface design.",
+  website: "https://cardi-client.vercel.app/",
+  github: "https://github.com/Leon8M/Cardi",
+  image: projectImages.cardi,
+  technologies: [
+    "Spring Boot",
+    "Java",
+    "Next.js",
+    "TypeScript",
+    "WebSockets",
+    "TailwindCSS",
+    "Zustand",
+    "React"
+  ],
+  category: "Game"
+},
   {
     id: "vertical-techniques",
     title: "Vertical Techniques Ltd. Website",
@@ -202,25 +222,6 @@ export const projects: Project[] = [
     technologies: ["JavaScript", "HTML", "jQuery"],
     category: "Web",
   },
-  {
-  id: "cardi-multiplayer-game",
-  title: "Cardi Multiplayer Game",
-  description: "A real-time multiplayer card game built with Spring Boot and Next.js.",
-  longDescription: "Cardi is a fast-paced, rule-rich multiplayer card game implemented with a Spring Boot backend and a Next.js frontend. Players can create rooms, join with a room code, play cards, trigger special actions, draw, pass turns, and enjoy fully synchronized real-time gameplay. Featuring WebSockets, dynamic UI components, and custom game logic based on the official Cardi rules, this project showcases advanced full-stack engineering, game state management, and responsive interface design.",
-  website: "https://cardi-client.vercel.app/",
-  github: "https://github.com/Leon8M/Cardi",
-  image: projectImages.cardi,
-  technologies: [
-    "Spring Boot",
-    "Java",
-    "Next.js",
-    "TypeScript",
-    "WebSockets",
-    "TailwindCSS",
-    "Zustand",
-    "React"
-  ],
-  category: "Game"
-}
+
 
 ];
