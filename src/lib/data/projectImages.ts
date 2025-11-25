@@ -1,5 +1,4 @@
-// Import all your project images from the public/projects folder
-// Make sure the paths are correct based on where you place your images within public/projects
+
 import learnai from '../../../public/projects/learnai.png';
 import refactor from '../../../public/projects/refactor.png';
 import anchored from '../../../public/projects/anchored.png';
@@ -8,15 +7,15 @@ import money from '../../../public/projects/money.png';
 import peer from '../../../public/projects/peer.png';
 import linked from '../../../public/projects/linked.png';
 import screen from '../../../public/projects/screen.jpg';
-import og from '../../../public/projects/og.png'; // Assuming 'My Former Portfolio' uses 'og.png'
+import og from '../../../public/projects/og.png'; 
 import luminous from '../../../public/projects/luminous.png';
 import wellbe from '../../../public/projects/wellbe.png';
 import leads from '../../../public/projects/leads.png';
-import xpPortfolio from '../../../public/projects/xp-portfolio.png'; // Add an image for this portfolio
+import xpPortfolio from '../../../public/projects/xp-portfolio.png'; 
+import cardi from '../../../public/projects/cardi.png';
 
 
 
-// Export your images as an object for easy access
 export const projectImages = {
   learnai: { src: learnai, alt: "AI LearnHub Screenshot" },
   refactor: { src: refactor, alt: "Python Code Refactor AI Screenshot" },
@@ -30,10 +29,10 @@ export const projectImages = {
   luminous: { src: luminous, alt: "Luminous Solutions Website Screenshot" },
   wellbe: { src: wellbe, alt: "WellBe App Screenshot" },
   leads: { src: leads, alt: "Leads Chrome Addon Screenshot" },
-  xpPortfolio: { src: xpPortfolio, alt: "Windows XP Inspired Portfolio Screenshot" }, // Add this
+  xpPortfolio: { src: xpPortfolio, alt: "Windows XP Inspired Portfolio Screenshot" }, 
+  cardi: { src: cardi, alt: "Cardi AI Screenshot" },
 };
 
-// Re-export the actual image imports if needed elsewhere (less common)
 export {
   learnai,
   refactor,
@@ -48,4 +47,5 @@ export {
   wellbe,
   leads,
   xpPortfolio,
+  cardi,
 };
