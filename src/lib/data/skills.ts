@@ -10,7 +10,7 @@ export const skills: SkillCategory[] = [
   },
   {
     category: "Backend",
-    skills: ["Python","Django", "Flask", "FastAPI", "MongoDB", "PostgreSQL", "RESTful APIs", "GraphQL", "Node.js", "Celery"],
+    skills: ["Java", "Springboot","Python","Django", "Flask", "FastAPI", "MongoDB", "PostgreSQL", "RESTful APIs", "GraphQL", "Node.js", "Celery"],
   },
   {
     category: "DevOps & Tools",
