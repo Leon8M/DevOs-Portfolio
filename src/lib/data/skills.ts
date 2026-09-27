@@ -5,19 +5,27 @@ export interface SkillCategory {
 
 export const skills: SkillCategory[] = [
   {
-    category: "Frontend",
-    skills: ["React", "Next.js", "TypeScript", "JavaScript", "HTML", "CSS", "TailwindCSS", "Framer Motion", "Zustand", "React Context", "Shadcn UI", "Material UI", "ReactPy", "Apollo"],
+    category: "Languages",
+    skills: ["Python", "Java", "JavaScript", "TypeScript", "Rust", "SQL", "C++", "HTML5", "CSS3", "SCSS"],
   },
   {
-    category: "Backend",
-    skills: ["Java", "Springboot","Python","Django", "Flask", "FastAPI", "MongoDB", "PostgreSQL", "RESTful APIs", "GraphQL", "Node.js", "Celery"],
+    category: "Frontend Technologies",
+    skills: ["React", "Next.js", "React Native", "Tailwind CSS", "Framer Motion", "Shadcn UI", "Zustand", "React Context", "Material UI", "Apollo", "ReactPy"],
   },
   {
-    category: "DevOps & Tools",
-    skills: ["Git", "Docker", "Google Cloud", "Vercel", "Github Actions", "Jira", "VS Code"],
+    category: "Backend & APIs",
+    skills: ["Spring Boot", "Django", "Flask", "Node.js", "GraphQL", "RESTful APIs", "FastAPI", "Celery"],
   },
   {
-    category: "Other",
-    skills: ["Leadership", "Agile Methodologies", "Problem Solving", "Communication", "Teamwork", "Adaptability", "Time Management", "Critical Thinking", "Attention to Detail", "Continuous Learning"],
+    category: "Databases",
+    skills: ["PostgreSQL", "MySQL", "SQLite", "MongoDB"],
+  },
+  {
+    category: "Cloud, DevOps & Tooling",
+    skills: ["Linux (Arch Linux)", "Docker", "Git", "GitHub", "Supabase", "Vercel", "RabbitMQ", "CI/CD pipelines", "Google Cloud", "GitHub Actions", "Jira", "VS Code"],
+  },
+  {
+    category: "Methodologies",
+    skills: ["Microservices architecture", "System Design", "JWT Authentication", "AI-Assisted Development (GitHub Copilot, Gemini CLI)", "Agile frameworks", "Leadership", "Problem Solving", "Communication", "Teamwork", "Adaptability", "Time Management", "Critical Thinking", "Attention to Detail", "Continuous Learning"],
   },
 ];
