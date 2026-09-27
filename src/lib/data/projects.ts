@@ -20,7 +20,8 @@ export const projects: Project[] = [
       "A secure, responsive, role-based Early Childhood Development portal for centers in Kenya.",
     longDescription:
       "**Problem:** Early Childhood Development centers needed a centralized, secure system for daily attendance, child records, caregiver access, and reporting.\n**Solution:** An end-to-end ECD portal with role-based access control, operational workflows, and analytics tailored for school and government users.\n**Stack:** Spring Boot 3, Java 17, Spring Security (JWT), PostgreSQL 14+, Flyway, Next.js 14, TypeScript, Tailwind CSS.\n**Impact:** Streamlines attendance, health tracking, caregiver visibility, and reporting across the full center workflow.",
-    github: "",
+    website: "https://ecd-inky.vercel.app/dashboard",
+    github: "https://gitlab.com/Leon8M/ecd",
     image: projectImages.ecd,
     technologies: [
       "Spring Boot",

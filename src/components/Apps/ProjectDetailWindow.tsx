@@ -7,6 +7,12 @@ interface ProjectDetailWindowProps {
 }
 
 const ProjectDetailWindow: React.FC<ProjectDetailWindowProps> = ({ project }) => {
+  const getRepositoryLabel = (url: string) => {
+    if (url.includes('gitlab.com')) return 'GitLab';
+    if (url.includes('github.com')) return 'GitHub';
+    return 'Repository';
+  };
+
   return (
     <div className="p-4 h-full overflow-y-auto font-xp bg-[#ECE9D8] custom-scrollbar-devshell text-sm">
       {/* Project Image */}
@@ -54,7 +60,7 @@ const ProjectDetailWindow: React.FC<ProjectDetailWindowProps> = ({ project }) =>
             className="flex items-center gap-2 text-blue-800 hover:underline"
           >
             <img src="/xp-icons/github-icon.png" alt="GitHub" className="w-4 h-4" />
-            View on GitHub
+            View {getRepositoryLabel(project.github)}
           </a>
         )}
         {project.website && project.website !== '#' && (

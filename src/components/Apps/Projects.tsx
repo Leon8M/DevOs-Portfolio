@@ -22,6 +22,12 @@ const Projects: React.FC = () => {
     return project.category === filter;
   });
 
+  const getRepositoryLabel = (url: string) => {
+    if (url.includes('gitlab.com')) return 'GitLab';
+    if (url.includes('github.com')) return 'GitHub';
+    return 'Repository';
+  };
+
   return (
     <div className="p-3 md:p-5 w-full h-full overflow-y-auto bg-[#ECE9D8] text-sm font-['Tahoma',_Geneva,_sans-serif] xp-scrollbar">
       {/* Main Title - Enhanced with XP text shadow */}
@@ -96,7 +102,7 @@ const Projects: React.FC = () => {
                     className="xp-card-link-button"
                   >
                     <Image src="/xp-icons/github-icon.png" alt="GitHub" className="w-3 h-3" width={12} height={12} loading="lazy" /> {/* Add icon */}
-                    GitHub
+                    {getRepositoryLabel(project.github)}
                   </a>
                 )}
                 {project.website && project.website !== '#' && (
