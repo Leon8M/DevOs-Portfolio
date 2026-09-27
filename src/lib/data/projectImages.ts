@@ -13,6 +13,7 @@ import wellbe from '../../../public/projects/wellbe.png';
 import leads from '../../../public/projects/leads.png';
 import xpPortfolio from '../../../public/projects/xp-portfolio.png'; 
 import cardi from '../../../public/projects/cardi.png';
+import ecd from '../../../ecd.png';
 
 
 
@@ -31,6 +32,7 @@ export const projectImages = {
   leads: { src: leads, alt: "Leads Chrome Addon Screenshot" },
   xpPortfolio: { src: xpPortfolio, alt: "Windows XP Inspired Portfolio Screenshot" }, 
   cardi: { src: cardi, alt: "Cardi AI Screenshot" },
+  ecd: { src: ecd, alt: "ECD Smart Data Portal Screenshot" },
 };
 
 export {
@@ -48,4 +50,5 @@ export {
   leads,
   xpPortfolio,
   cardi,
+  ecd,
 };

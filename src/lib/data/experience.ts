@@ -9,6 +9,22 @@ export interface ExperienceItem {
 
 export const experience: ExperienceItem[] = [
   {
+    id: "azina-ciphercom",
+    company: "Azina / Ciphercom",
+    role: "Full-Stack Software Engineer & Product Lead",
+    duration: "11/2025 - Present",
+    summary: "Led the end-to-end architecture and development of a new enterprise monitoring platform, improving system performance by about 50% through backend optimization, database refinements, and API redesigns. Built and maintained React, React Native, Java Spring Boot, PostgreSQL, and secure REST API solutions, introduced AI-assisted development practices across the engineering team, and set reusable UI standards and engineering workflows. Also served as project manager for Quorumate and the Azinabok admin portal.",
+    icon: "/xp-icons/community-icon.png",
+  },
+  {
+    id: "propel-contract",
+    company: "Propel",
+    role: "Contract Back-End Developer",
+    duration: "4/2025 - 11/2025",
+    summary: "Designed and implemented a Python and Django microservice architecture with GraphQL APIs and RabbitMQ messaging, configured secure JWT authentication, and delivered product and administrative management features. Dockerized service images, established CI pipelines with automated testing, and collaborated asynchronously with distributed frontend and product teams to resolve performance bottlenecks and maintain service reliability.",
+    icon: "/xp-icons/freelance-icon.png",
+  },
+  {
     id: "alofa-intern",
     company: "Alofa, Remote",
     role: "Software Intern",
