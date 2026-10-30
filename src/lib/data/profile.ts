@@ -64,12 +64,32 @@ export interface Certificate {
   issuer: string;
   date: string;
   image?: string;
+  /** Public page where the certificate can be verified. */
+  verifyUrl?: string;
 }
 
 export const certificates: Certificate[] = [
+  {
+    name: "ALX Software Engineering (Back-end)",
+    issuer: "ALX Africa",
+    date: "Apr 2024",
+    image: "/certificates/alx-software-engineering.jpg",
+    verifyUrl: "https://intranet.alxswe.com/certificates/F97ERYCzcN",
+  },
   { name: "HackerRank React (Frontend)", issuer: "HackerRank", date: "Feb 2025", image: "/certificates/hackerrank-react.png" },
   { name: "HackerRank Python (Basic)", issuer: "HackerRank", date: "Feb 2025", image: "/certificates/hackerrank-python.png" },
   { name: "Microsoft ADC LIT Program", issuer: "Microsoft ADC", date: "May 2025", image: "/certificates/microsoft-adc-lit.png" },
   { name: "GDG on Campus Co-Lead", issuer: "KCA University", date: "2025", image: "/certificates/gdg-co-lead.png" },
-  { name: "ALX Certified Software Engineer", issuer: "ALX Africa", date: "Apr 2024" },
+  {
+    name: "UNICEF Introduction to AI for Teachers and Students",
+    issuer: "UNICEF (Agora)",
+    date: "Oct 2026",
+    image: "/certificates/unicef-ai-teachers-students.png",
+  },
+  {
+    name: "UNICEF Prevention of Sexual Exploitation and Abuse (PSEA)",
+    issuer: "UNICEF (Agora)",
+    date: "Oct 2026",
+    image: "/certificates/unicef-psea.png",
+  },
 ];

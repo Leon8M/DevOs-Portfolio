@@ -203,7 +203,9 @@ const leadershipText = [
 const certificatesText = [
   heading("CERTIFICATIONS"),
   "",
-  ...certificates.map((c) => `- ${c.name} | ${c.issuer}${c.date ? ` | ${c.date}` : ""}`),
+  ...certificates.map(
+    (c) => `- ${c.name} | ${c.issuer}${c.date ? ` | ${c.date}` : ""}${c.verifyUrl ? `\n    Verify: ${c.verifyUrl}` : ""}`,
+  ),
   "",
   "Scans of the certificates are in this folder. Double-click one to view it.",
 ].join("\n");
@@ -313,7 +315,8 @@ const myDocuments = folder(
               .map<FileNode>((c) => ({
                 kind: "file",
                 type: "image",
-                name: `${c.name}.png`,
+                // Keep the real extension so the type column says JPEG/PNG correctly.
+                name: `${c.name}.${c.image?.split(".").pop() ?? "png"}`,
                 src: c.image,
                 info: `${c.issuer}${c.date ? `, ${c.date}` : ""}`,
               })),
