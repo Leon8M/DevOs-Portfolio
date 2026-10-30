@@ -1,162 +1,136 @@
-"use client"
-import React, { useState } from 'react';
+'use client';
+
+import React, { useEffect, useState } from 'react';
 import Taskbar from './Taskbar';
-import Window from '@/components/Window/Window'; 
 import StartMenu from './StartMenu';
-import AppIcon from './AppIcon';
+import Window from '@/components/Window/Window';
+import { IconImage } from '@/components/Apps/Explorer';
 import { useWindowStore } from '@/lib/store/windowStore';
+import { useSettingsStore, wallpaperById } from '@/lib/store/settingsStore';
+import { useCoarsePointer } from '@/lib/useCoarsePointer';
+import { openApp, openFile, openPath } from '@/lib/launcher';
+import { type FileNode, PATHS, getNode, iconFor } from '@/lib/fs';
 
+const desktopFolder = getNode(PATHS.desktop);
+const desktopItems: FileNode[] =
+  desktopFolder?.kind === 'folder' ? desktopFolder.children.filter((c): c is FileNode => c.kind === 'file') : [];
 
-import Projects from '@/components/Apps/Projects';
-import Experience from '@/components/Apps/Experience';
-import Education from '@/components/Apps/Education';
-import Skills from '@/components/Apps/Skills';
-import AboutMe from '@/components/Apps/AboutMe';
-import ContactMe from '@/components/Apps/ContactMe';
-import Calculator from '@/components/Apps/Calculator';
-import Calendar from '@/components/Apps/Calendar';
-import DevShell from '@/components/Apps/DevShell';
+/** First visit only: point people at the two things recruiters look for. */
+const WELCOME_KEY = 'leonos-welcomed';
 
-interface DesktopProps {
-  children: React.ReactNode;
-}
+export default function Desktop() {
+  const windows = useWindowStore((s) => s.windows);
+  const wallpaperId = useSettingsStore((s) => s.wallpaperId);
+  const [startOpen, setStartOpen] = useState(false);
+  const [selected, setSelected] = useState<string | null>(null);
+  const [menu, setMenu] = useState<{ x: number; y: number } | null>(null);
+  const [refreshKey, setRefreshKey] = useState(0);
+  const coarse = useCoarsePointer();
 
-const Desktop: React.FC<DesktopProps> = ({ children }) => {
-  const { windows, addWindow } = useWindowStore();
-  const [startMenuOpen, setStartMenuOpen] = useState(false);
+  // Open About Me on a visitor's first visit so the desktop never looks empty or confusing.
+  useEffect(() => {
+    try {
+      if (localStorage.getItem(WELCOME_KEY)) return;
+      localStorage.setItem(WELCOME_KEY, '1');
+    } catch {
+      return;
+    }
+    openPath(PATHS.aboutMe);
+  }, []);
 
-  const toggleStartMenu = () => {
-    setStartMenuOpen((prev) => !prev);
+  const openItem = (item: FileNode) => {
+    setSelected(null);
+    openFile(item, [...PATHS.desktop, item.name]);
   };
-
-  // Helper to generate a staggered position for new windows
-  const getStaggeredPosition = (index: number) => ({
-    x: 50 + (index * 15),
-    y: 50 + (index * 15),
-  });
-
-  // Keep track of how many times each app type has been opened
-  // This helps in giving unique IDs and better staggered positions for multiple instances of the same app
-  const [openAppCounts, setOpenAppCounts] = useState<Record<string, number>>({});
-
-  const handleAppIconClick = (appName: string, title: string, component: React.ReactNode, iconSrc: string, defaultSize: {width: string | number, height: string | number}) => {
-    const currentCount = (openAppCounts[appName] || 0) + 1;
-    setOpenAppCounts(prev => ({ ...prev, [appName]: currentCount }));
-
-    const uniqueId = `${appName}-${Date.now()}`; // More robust unique ID
-    const staggeredPosition = getStaggeredPosition(currentCount);
-
-    addWindow(
-      uniqueId,
-      title,
-      component,
-      staggeredPosition, 
-      defaultSize,      
-      iconSrc           
-    );
-  };
-
 
   return (
     <div
-      className="relative min-h-screen w-screen overflow-hidden bg-[url('/wallpaper.jpg')] bg-cover bg-center"
-      style={{ backgroundSize: 'cover' }}
+      className="fixed inset-0 overflow-hidden select-none"
+      style={{ background: wallpaperById(wallpaperId).background }}
+      onContextMenu={(e) => {
+        e.preventDefault();
+        setMenu({ x: e.clientX, y: e.clientY });
+      }}
+      onClick={() => {
+        setSelected(null);
+        setMenu(null);
+      }}
     >
-      {children}
-
-      <div className="absolute top-4 left-4 flex flex-col space-y-4">
-        <AppIcon
-          title="About Me"
-          iconSrc="/xp-icons/about-me-icon.png"
-          onClick={() => handleAppIconClick(
-            'about-me',
-            "About Me",
-            <AboutMe />,
-            "/xp-icons/about-me-icon.png",
-            { width: 450, height: 300 }
-          )}
-        />
-        <AppIcon
-          title="Skills"
-          iconSrc="/xp-icons/skills-icon.png"
-          onClick={() => handleAppIconClick(
-            'skills',
-            "Skills",
-            <Skills />,
-            "/xp-icons/skills-icon.png",
-            { width: 500, height: 350 }
-          )}
-        />
-        <AppIcon
-          title="My Projects"
-          iconSrc="/xp-icons/projects-icon.png"
-          onClick={() => handleAppIconClick(
-            'projects',
-            "My Projects",
-            <Projects />,
-            "/xp-icons/projects-icon.png",
-            { width: 800, height: 500 }
-          )}
-        />
-        <AppIcon
-          title="Experience"
-          iconSrc="/xp-icons/experience-icon.png"
-          onClick={() => handleAppIconClick(
-            'experience',
-            "Experience",
-            <Experience />,
-            "/xp-icons/experience-icon.png",
-            { width: 700, height: 450 }
-          )}
-        />
-        <AppIcon
-          title="Education"
-          iconSrc="/xp-icons/education-icon.png"
-          onClick={() => handleAppIconClick(
-            'education',
-            "Education",
-            <Education />,
-            "/xp-icons/education-icon.png",
-            { width: 600, height: 400 }
-          )}
-        />
-        
-        
-        <AppIcon
-          title="Contact Me"
-          iconSrc="/xp-icons/contact-me-icon.png"
-          onClick={() => handleAppIconClick(
-            'contact-me',
-            "Contact Me",
-            <ContactMe />,
-            "/xp-icons/contact-me-icon.png",
-            { width: 400, height: 380 }
-          )}
-        />
-        
+      {/* Desktop icons: top-down, then the next column, like Windows. */}
+      <div
+        key={refreshKey}
+        role="list"
+        aria-label="Desktop"
+        className="absolute inset-x-0 top-0 bottom-[30px] grid auto-cols-[86px] grid-flow-col grid-rows-[repeat(auto-fill,86px)] content-start gap-y-1 p-2"
+      >
+        {desktopItems.map((item) => {
+          const isSelected = selected === item.name;
+          return (
+            <button
+              type="button"
+              role="listitem"
+              key={item.name}
+              title={item.info ?? item.name}
+              className="flex h-[84px] w-[86px] flex-col items-center gap-1 p-1 text-center outline-none"
+              onClick={(e) => {
+                e.stopPropagation();
+                setMenu(null);
+                if (coarse) openItem(item);
+                else setSelected(item.name);
+              }}
+              onDoubleClick={() => openItem(item)}
+              onKeyDown={(e) => e.key === 'Enter' && openItem(item)}
+              onFocus={() => setSelected(item.name)}
+            >
+              <IconImage src={iconFor(item)} arrow={item.arrow} selected={isSelected} size="h-10 w-10" />
+              <span className={`xp-desktop-label line-clamp-2 ${isSelected ? 'selected' : ''}`}>{item.name}</span>
+            </button>
+          );
+        })}
       </div>
 
-      {/* Render open windows */}
-      {windows.map((win) => (
-        <Window
-          key={win.id}
-          id={win.id}
-          title={win.title}
-          initialPosition={win.position} // Pass position from store
-          initialSize={win.size}       // Pass size from store
-          isMinimized={win.minimized}
-          isFocused={win.focused}
-          zIndex={win.zIndex}
-          icon={win.icon} // <--- Pass the icon from the store to the Window component itself!
-        >
-          {win.content}
-        </Window>
-      ))}
+      {/* Window layer: stops at the taskbar. Only the windows themselves take clicks. */}
+      <div className="pointer-events-none absolute inset-x-0 top-0 bottom-[30px]">
+        {windows.map((win) => (
+          <Window key={win.id} id={win.id}>
+            {win.content}
+          </Window>
+        ))}
+      </div>
 
-      <StartMenu isOpen={startMenuOpen} onClose={toggleStartMenu} />
-      <Taskbar onStartButtonClick={toggleStartMenu} />
+      {menu && (
+        <ul
+          className="xp-menu fixed"
+          style={{ left: Math.min(menu.x, window.innerWidth - 190), top: Math.min(menu.y, window.innerHeight - 200), zIndex: 9000003 }}
+          onClick={(e) => e.stopPropagation()}
+        >
+          {[
+            { label: 'Refresh', onClick: () => setRefreshKey((k) => k + 1) },
+            { label: 'Open My Documents', onClick: () => openPath(PATHS.myDocuments) },
+            { label: 'Open DevShell here', onClick: () => openApp('devshell') },
+            { label: 'New Folder', disabled: true },
+            { label: 'Properties', onClick: () => openApp('display') },
+          ].map((item) => (
+            <li key={item.label}>
+              <button
+                type="button"
+                className="xp-menu-item"
+                disabled={item.disabled}
+                onClick={() => {
+                  setMenu(null);
+                  item.onClick?.();
+                }}
+              >
+                <span className="w-4" />
+                {item.label}
+              </button>
+            </li>
+          ))}
+        </ul>
+      )}
+
+      <StartMenu isOpen={startOpen} onClose={() => setStartOpen(false)} />
+      <Taskbar startOpen={startOpen} onStartButtonClick={() => setStartOpen((o) => !o)} />
     </div>
   );
-};
-
-export default Desktop;
+}

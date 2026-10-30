@@ -1,78 +1,65 @@
-import React, { useState, useEffect } from 'react';
+'use client';
+
+import React, { useEffect, useState } from 'react';
 import { useWindowStore } from '@/lib/store/windowStore';
-import moment from 'moment'; // For date/time formatting
-import Image from "next/image";
 
 interface TaskbarProps {
+  startOpen: boolean;
   onStartButtonClick: () => void;
 }
 
-const Taskbar: React.FC<TaskbarProps> = ({ onStartButtonClick }) => {
-  const { windows, restoreWindow, focusWindow } = useWindowStore();
-  const [currentTime, setCurrentTime] = useState(moment());
+const timeFormat = new Intl.DateTimeFormat(undefined, { hour: 'numeric', minute: '2-digit' });
+const dateFormat = new Intl.DateTimeFormat(undefined, { dateStyle: 'full' });
 
-  // Update time every minute
+export default function Taskbar({ startOpen, onStartButtonClick }: TaskbarProps) {
+  const windows = useWindowStore((s) => s.windows);
+  const toggleWindow = useWindowStore((s) => s.toggleWindow);
+  const [now, setNow] = useState(() => new Date());
+
   useEffect(() => {
-    const timer = setInterval(() => {
-      setCurrentTime(moment());
-    }, 60 * 1000); // Update every 60 seconds
-
+    const timer = setInterval(() => setNow(new Date()), 15_000);
     return () => clearInterval(timer);
   }, []);
 
-  const handleWindowClick = (id: string, minimized: boolean) => {
-    if (minimized) {
-      restoreWindow(id);
-    } else {
-      focusWindow(id);
-    }
-  };
-
   return (
-    <div className="fixed bottom-0 left-0 right-0 h-8 bg-xp-taskbar border-t border-xp-taskbar-border flex items-center px-1 z-50 font-xp-ui text-xs">
-      {/* Start Button */}
+    <div
+      className="fixed inset-x-0 bottom-0 flex h-[30px] items-center bg-xp-taskbar border-t border-xp-taskbar-border font-xp-ui text-xs"
+      style={{ zIndex: 9000000 }}
+      onClick={(e) => e.stopPropagation()}
+      onContextMenu={(e) => e.stopPropagation()}
+    >
       <button
+        type="button"
         onClick={onStartButtonClick}
-        className="start-button-xp"
+        className={`start-button-xp ${startOpen ? 'pressed' : ''}`}
+        aria-expanded={startOpen}
+        aria-haspopup="menu"
       >
-        <Image src="/xp-icons/start-icon.svg" alt="Start" className="w-4 h-4 mr-1" width={16} height={16} loading="lazy" />
-        <span>Start</span>
+        <img src="/xp-icons/start-icon.svg" alt="" className="mr-1 h-4 w-4" />
+        <span>start</span>
       </button>
 
-      {/* Taskbar items (open windows) */}
-      <div className="flex-grow flex items-center ml-2 space-x-[1px] h-full overflow-x-auto custom-scrollbar-taskbar">
-        {windows.map((win) => {
-          // Determine the icon to display. Use a default if win.icon is not provided.
-          const iconSrc = win.icon || '/xp-icons/default-app-icon.png'; 
-          return (
-            <button
-              key={win.id}
-              onClick={() => handleWindowClick(win.id, win.minimized)}
-              // Apply XP-specific taskbar button styles
-              className={`taskbar-button-xp ${win.focused ? 'focused' : ''} ${win.minimized ? 'minimized' : ''}`}
-            >
-              <Image src={iconSrc} alt={win.title} className="w-4 h-4 mr-1 flex-shrink-0" width={16} height={16} loading="lazy" />
-              <span className="truncate">{win.title}</span> {/* Truncate long titles */}
-            </button>
-          );
-        })}
+      <div className="ml-2 flex h-full min-w-0 flex-grow items-center gap-[2px] overflow-x-auto custom-scrollbar-taskbar">
+        {windows.map((win) => (
+          <button
+            type="button"
+            key={win.id}
+            onClick={() => toggleWindow(win.id)}
+            title={win.title}
+            className={`taskbar-button-xp ${win.focused && !win.minimized ? 'focused' : ''} ${win.minimized ? 'minimized' : ''}`}
+          >
+            <img src={win.icon || '/xp-icons/default-app-icon.png'} alt="" className="mr-1 h-4 w-4 flex-shrink-0" />
+            <span className="truncate">{win.title}</span>
+          </button>
+        ))}
       </div>
 
-      {/* System Tray & Clock */}
-      <div className="h-full flex items-center px-2 ml-2 bg-xp-tray-bg border-xp-tray-border text-white text-xs font-bold whitespace-nowrap">
-        {/* Placeholder for other system tray icons */}
-        <div className="flex items-center space-x-1 mr-2">
-            {/* Example: Speaker icon */}
-            <Image src="/xp-icons/speaker-icon.png" alt="Speaker" className="w-4 h-4" width={16} height={16} loading="lazy" />
-        </div>
-        
-        {/* Actual functional clock */}
-        <span className="text-xp-clock-blue text-[11px]">
-          {currentTime.format('h:mm A')}
-        </span>
+      <div className="ml-2 flex h-full items-center whitespace-nowrap bg-xp-tray-bg border-xp-tray-border px-2.5 text-xs text-white">
+        <img src="/xp-icons/speaker-icon.png" alt="Volume" className="mr-2 h-4 w-4" />
+        <time dateTime={now.toISOString()} title={dateFormat.format(now)} className="text-[11px] text-xp-clock-blue">
+          {timeFormat.format(now)}
+        </time>
       </div>
     </div>
   );
-};
-
-export default Taskbar;
+}

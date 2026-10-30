@@ -1,4 +1,3 @@
-import { projectImages } from "./projectImages";
 
 export interface Project {
   id: string;
@@ -7,14 +6,33 @@ export interface Project {
   longDescription: string;
   website?: string;
   github: string;
-  image: { src: StaticImageData; alt: string };
+  /** Path under /public. */
+  screenshot: string;
   technologies: string[];
   category: string;
+  /** Shown first in My Projects. */
+  featured?: boolean;
+  /** Retired work: lives in the Recycle Bin instead of My Projects. */
+  retired?: boolean;
 }
 
 export const projects: Project[] = [
   {
+    id: "devops-deployment-boilerplate",
+    title: "DevOps Deployment Boilerplate",
+    description:
+      "Production-style deployment stack with zero-downtime rolling deploys, automated health checks and rollback.",
+    longDescription:
+      "**Problem:** Deploying a containerised service to a single Linux server usually means downtime during releases and manual recovery when a release is bad.\n**Solution:** A complete, runnable stack (Nginx, a Python API, PostgreSQL, Redis, Flyway) shipped by a GitLab CI/CD pipeline: lint, build, test, deploy, verify and rollback. New containers must pass health checks before Nginx switches traffic, and failed releases roll back automatically. Includes 19 operational scripts for backups, restores, TLS, monitoring, server hardening and diagnostics, plus an incident runbook.\n**Stack:** Docker Compose, Nginx (TLS, rate limiting), GitLab CI/CD, Python/Flask, PostgreSQL, Redis, Flyway, Bash, systemd.\n**Impact:** 0 failed requests out of 3,400+ served under continuous load across deploys, rollbacks and simulated broken releases.",
+    github: "https://gitlab.com/Leon8M/devops-deployment-boilerplate",
+    screenshot: "/projects/devops-boilerplate.png",
+    technologies: ["Docker", "Nginx", "GitLab CI/CD", "PostgreSQL", "Redis", "Flyway", "Bash", "Python"],
+    category: "DevOps",
+    featured: true,
+  },
+  {
     id: "ecd-smart-data-portal",
+    featured: true,
     title: "ECD Smart Data Portal",
     description:
       "A secure, responsive, role-based Early Childhood Development portal for centers in Kenya.",
@@ -22,7 +40,7 @@ export const projects: Project[] = [
       "**Problem:** Early Childhood Development centers needed a centralized, secure system for daily attendance, child records, caregiver access, and reporting.\n**Solution:** An end-to-end ECD portal with role-based access control, operational workflows, and analytics tailored for school and government users.\n**Stack:** Spring Boot 3, Java 17, Spring Security (JWT), PostgreSQL 14+, Flyway, Next.js 14, TypeScript, Tailwind CSS.\n**Impact:** Streamlines attendance, health tracking, caregiver visibility, and reporting across the full center workflow.",
     website: "https://ecd-inky.vercel.app/dashboard",
     github: "https://gitlab.com/Leon8M/ecd",
-    image: projectImages.ecd,
+    screenshot: "/projects/ecd.png",
     technologies: [
       "Spring Boot",
       "Java 17",
@@ -37,6 +55,7 @@ export const projects: Project[] = [
   },
   {
     id: "kamusi-ai",
+    featured: true,
     title: "Kamusi AI",
     description:
       "An AI-powered platform for generating and learning from custom courses.",
@@ -44,7 +63,7 @@ export const projects: Project[] = [
       "**Problem:** Creating comprehensive educational content is time-consuming.\n**Solution:** An AI-powered platform that dynamically generates courses with chapters and video resources.\n**Stack:** Next.js, Tailwind CSS, Clerk, Shadcn UI, Google Gemini API.\n**Impact:** Revolutionizes content creation and provides a rich, interactive learning experience.",
     website: "https://kamusi.denexsoftware.co.ke/",
     github: "https://github.com/Leon8M/LearnWithAi",
-    image: projectImages.learnai,
+    screenshot: "/projects/learnai.png",
     technologies: [
       "Next.js",
       "Tailwind CSS",
@@ -63,7 +82,7 @@ export const projects: Project[] = [
       "**Problem:** Improving code quality and documentation can be a tedious process.\n**Solution:** A web app that uses AI to refactor, explain, or add comments to Python code.\n**Stack:** Next.js, Tailwind CSS, PrismJS, Google Gemini API.\n**Impact:** Significantly improves code quality, readability, and documentation.",
     website: "https://python-refactor.vercel.app/",
     github: "https://github.com/Leon8M/Python-Refactor",
-    image: projectImages.refactor,
+    screenshot: "/projects/refactor.png",
     technologies: [
       "Next.js",
       "Tailwind CSS",
@@ -81,18 +100,19 @@ export const projects: Project[] = [
       "**Problem:** Standard portfolios can be generic and fail to capture attention.\n**Solution:** A unique, interactive portfolio that mimics the Windows XP interface to showcase skills and projects in a memorable way.\n**Stack:** Next.js, Tailwind CSS, Framer Motion, Zustand.\n**Impact:** Creates a distinct and engaging user experience that highlights creativity and technical skills.",
     website: "#",
     github: "https://github.com/Leon8M/portfolio-xp",
-    image: projectImages.xpPortfolio,
+    screenshot: "/projects/xp-portfolio.png",
     technologies: ["Next.js", "Tailwind CSS", "Framer Motion", "Zustand"],
     category: "Web",
   },
     {
   id: "cardi-multiplayer-game",
+    featured: true,
   title: "Cardi Multiplayer Game",
   description: "A real-time multiplayer card game built with Spring Boot and Next.js.",
   longDescription: "Cardi is a fast-paced, rule-rich multiplayer card game implemented with a Spring Boot backend and a Next.js frontend. Players can create rooms, join with a room code, play cards, trigger special actions, draw, pass turns, and enjoy fully synchronized real-time gameplay. Featuring WebSockets, dynamic UI components, and custom game logic based on the official Cardi rules, this project showcases advanced full-stack engineering, game state management, and responsive interface design.",
   website: "https://cardi-client.vercel.app/",
   github: "https://github.com/Leon8M/Cardi",
-  image: projectImages.cardi,
+  screenshot: "/projects/cardi.png",
   technologies: [
     "Spring Boot",
     "Java",
@@ -114,7 +134,7 @@ export const projects: Project[] = [
       "**Problem:** The company needed a professional online presence to attract clients and showcase their specialized cleaning services.\n**Solution:** A clean, modern website that serves as a digital storefront, highlighting their services, expertise, and commitment to safety.\n**Stack:** React, Tailwind CSS.\n**Impact:** Established a strong online presence, enabling the company to reach a wider audience and generate new business leads.",
     website: "https://www.verticaltechniques.co.ke/",
     github: "https://github.com/Leon8M/Anchored-Heights",
-    image: projectImages.anchored,
+    screenshot: "/projects/anchored.png",
     technologies: ["React", "Tailwind CSS"],
     category: "Web",
   },
@@ -127,7 +147,7 @@ export const projects: Project[] = [
       "**Problem:** The need for a personal blogging platform with full content management capabilities.\n**Solution:** A full-stack blogging platform with a React frontend and Flask backend, allowing for CRUD operations, image uploads, and admin authentication.\n**Stack:** React, Python, Flask, Tailwind CSS, PostgreSQL, Azure, Render.\n**Impact:** Provides a robust and scalable platform for personal blogging, with a seamless content management experience.",
     website: "https://blog-9k5.pages.dev/",
     github: "https://github.com/Leon8M/Blog",
-    image: projectImages.blog,
+    screenshot: "/projects/blog.png",
     technologies: [
       "React",
       "Python",
@@ -149,7 +169,7 @@ export const projects: Project[] = [
     website:
       "https://github.com/Leon8M/LinkedList-API/blob/main/README.md",
     github: "https://github.com/Leon8M/LinkedList-API",
-    image: projectImages.linked,
+    screenshot: "/projects/linked.png",
     technologies: ["Rust", "React", "Tailwind CSS"],
     category: "Full-Stack",
   },
@@ -162,7 +182,7 @@ export const projects: Project[] = [
       "**Problem:** The need for a simple tool to manage personal finances, tasks, and other responsibilities.\n**Solution:** An intuitive personal management application that streamlines daily organization.\n**Stack:** React, Flask, Python, Tailwind CSS.\n**Impact:** Enhances productivity and organization by providing a single, cohesive platform for managing personal tasks and finances.",
     website: "https://me-manager.vercel.app/",
     github: "https://github.com/Leon8M/Me-Manager",
-    image: projectImages.money,
+    screenshot: "/projects/money.png",
     technologies: ["React", "Flask", "Python", "Tailwind CSS"],
     category: "Full-Stack",
   },
@@ -175,7 +195,7 @@ export const projects: Project[] = [
       "**Problem:** University students often struggle to find peers for collaborative learning and study groups.\n**Solution:** A peer-to-peer learning platform that connects students for academic collaboration.\n**Stack:** React, Flask, Python, Tailwind CSS.\n**Impact:** Fosters a supportive academic environment and leverages the collective intelligence of the student community.",
     website: "https://eeba3d15.e-learning-74b.pages.dev/",
     github: "https://github.com/Leon8M/E-learning",
-    image: projectImages.peer,
+    screenshot: "/projects/peer.png",
     technologies: ["React", "Flask", "Python", "Tailwind CSS"],
     category: "Full-Stack",
   },
@@ -188,12 +208,13 @@ export const projects: Project[] = [
       "**Problem:** An auditor needed a professional website to showcase his expertise and services.\n**Solution:** A clean, elegant portfolio website that highlights his professional background and achievements.\n**Stack:** React, Tailwind CSS, TypeScript.\n**Impact:** Provides a compelling online presence for clients and a professional network.",
     website: "https://anthonynjeru.netlify.app/",
     github: "https://github.com/Leon8M/Anthony-Njeru",
-    image: projectImages.screen,
+    screenshot: "/projects/screen.jpg",
     technologies: ["React", "Tailwind CSS", "TypeScript"],
     category: "Web",
   },
   {
     id: "former-portfolio",
+    retired: true,
     title: "My Former Portfolio",
     description:
       "A previous version of my developer portfolio, demonstrating earlier work and design.",
@@ -201,7 +222,7 @@ export const projects: Project[] = [
       "This project represents an earlier iteration of my personal developer portfolio. It showcases my foundational work and design approach from a previous phase of my career. While no longer my primary portfolio, it serves as a valuable artifact, demonstrating my evolution in web development and design principles over time.",
     website: "https://zealous-desert-0df9b7c10.5.azurestaticapps.net/",
     github: "https://github.com/Leon8M/New-Portfolio",
-    image: projectImages.og,
+    screenshot: "/projects/og.png",
     technologies: ["React", "Tailwind CSS"],
     category: "Web",
   },
@@ -214,7 +235,7 @@ export const projects: Project[] = [
       "This is the official company website for **Luminous Solutions**, a company dedicated to offering reliable and affordable solar solutions. The website highlights their range of solar products and services, catering to various needs from residential to commercial installations. It serves as a key informational hub, outlining their commitment to sustainable energy and providing an accessible platform for potential customers.",
     website: "https://gray-flower-030c17610.4.azurestaticapps.net/",
     github: "https://github.com/Leon8M/Luminous",
-    image: projectImages.luminous,
+    screenshot: "/projects/luminous.png",
     technologies: ["React", "Tailwind CSS"],
     category: "Web",
   },
@@ -227,7 +248,7 @@ export const projects: Project[] = [
       "WellBe is a straightforward yet effective Flask application designed to assist users in managing their personal journals and tracking their goals. It offers a clean and intuitive interface for logging daily thoughts, reflections, and progress towards personal objectives, promoting self-awareness and accountability.",
     website: "https://wellbe.onrender.com/",
     github: "https://github.com/Leon8M/WellBe",
-    image: projectImages.wellbe,
+    screenshot: "/projects/wellbe.png",
     technologies: ["Python", "Flask", "JavaScript", "HTML"],
     category: "Full-Stack",
   },
@@ -240,7 +261,7 @@ export const projects: Project[] = [
       "Leads is a convenient Chrome browser add-on designed to streamline your web browsing by allowing you to easily save and manage URLs of websites you visit. This tool is perfect for quickly bookmarking interesting articles, resources, or anything you want to revisit later, enhancing productivity and organization.",
     website: "#",
     github: "https://github.com/Leon8M/Url-saver-for-chrome",
-    image: projectImages.leads,
+    screenshot: "/projects/leads.png",
     technologies: ["JavaScript", "HTML", "jQuery"],
     category: "Web",
   },

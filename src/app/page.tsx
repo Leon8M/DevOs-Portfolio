@@ -1,42 +1,54 @@
-"use client";
+import OsRoot from '@/components/OsRoot';
+import { profile, socials } from '@/lib/data/profile';
+import { experience } from '@/lib/data/experience';
+import { projects } from '@/lib/data/projects';
 
-import React, { useState, useEffect } from 'react';
-import dynamic from 'next/dynamic';
-import Desktop from "@/components/Desktop/Desktop";
-import Spinner from "@/components/ui/spinner"; 
-
-// Dynamically import WelcomeAnimation with SSR disabled
-const WelcomeAnimation = dynamic(
-  () => import("@/components/WelcomeAnimation"),
-  { ssr: false }
-);
-
+/**
+ * The interactive desktop is client-only, so the server also renders a plain, visually hidden
+ * summary. Search engines, link previews and screen readers get real content instead of a
+ * blank page.
+ */
 export default function Home() {
-  const [showWelcomeAnimation, setShowWelcomeAnimation] = useState(true);
-  const [isClient, setIsClient] = useState(false);
-
-  useEffect(() => {
-    // This useEffect ensures the animation only *starts* after hydration on the client
-    setIsClient(true);
-  }, []);
-
-  if (!isClient) {
-
-    return (
-      <div className="fixed inset-0 flex flex-col items-center justify-center bg-[#3A6FCD] text-white">
-        <Spinner size={60} className="mb-4" />
-        <p className="text-sm font-['Tahoma',_sans-serif]">Loading XP...</p>
-      </div>
-    );
-  }
-
   return (
     <>
-      {showWelcomeAnimation ? (
-        <WelcomeAnimation onComplete={() => setShowWelcomeAnimation(false)} />
-      ) : (
-        <Desktop />
-      )}
+      <section className="sr-only">
+        <h1>
+          {profile.name}: {profile.title}
+        </h1>
+        <p>{profile.summary}</p>
+        <p>
+          {profile.location}. Email <a href={`mailto:${profile.email}`}>{profile.email}</a>.
+        </p>
+        <ul>
+          {socials.map((s) => (
+            <li key={s.name}>
+              <a href={s.url}>{s.name}</a>
+            </li>
+          ))}
+          <li>
+            <a href="/resume.pdf">Resume (PDF)</a>
+          </li>
+        </ul>
+        <h2>Experience</h2>
+        <ul>
+          {experience.map((e) => (
+            <li key={e.id}>
+              {e.role}, {e.company} ({e.duration}): {e.summary}
+            </li>
+          ))}
+        </ul>
+        <h2>Projects</h2>
+        <ul>
+          {projects
+            .filter((p) => !p.retired)
+            .map((p) => (
+              <li key={p.id}>
+                <a href={p.website && p.website !== '#' ? p.website : p.github}>{p.title}</a>: {p.description}
+              </li>
+            ))}
+        </ul>
+      </section>
+      <OsRoot />
     </>
   );
 }

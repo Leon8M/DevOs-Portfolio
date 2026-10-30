@@ -1,229 +1,124 @@
-import React, { useState } from 'react';
+'use client';
+
+import React from 'react';
 import { motion } from 'framer-motion';
-import { useWindowStore } from '@/lib/store/windowStore';
-import Image from "next/image";
+import { openApp, openPath } from '@/lib/launcher';
+import { type AppId, type Path, ICONS, PATHS } from '@/lib/fs';
+import { profile } from '@/lib/data/profile';
+import { useSessionStore } from '@/lib/store/sessionStore';
 
-// Import your existing app components
-import Projects from '@/components/Apps/Projects';
-import AboutMe from '@/components/Apps/AboutMe';
-import ContactMe from '@/components/Apps/ContactMe';
-import Calculator from '@/components/Apps/Calculator';
-import Calendar from '@/components/Apps/Calendar';
-import DevShell from '@/components/Apps/DevShell';
-import Experience from '@/components/Apps/Experience';
-import Education from '@/components/Apps/Education';
-import Skills from '@/components/Apps/Skills';
+type Entry = {
+  label: string;
+  icon: string;
+  /** Second line under pinned items, like "Internet Explorer" under "Internet". */
+  sub?: string;
+  bold?: boolean;
+} & ({ path: Path } | { app: AppId });
 
-// Import the new components we just created
-import MyResume from '@/components/Apps/MyResume';
-import TechStack from '@/components/Apps/TechStack';
-import ThemeSettings from '@/components/Apps/ThemeSettings';
-import ContactSocials from '@/components/Apps/ContactSocials';
-import SystemInfo from '@/components/Apps/SystemInfo';
-import Achievements from '@/components/Apps/Achievements';
-
-
-// Define the type for our app items
-type AppItem = {
-    label: string;
-    icon: string;
-    component: React.ReactNode;
-    isFeatured?: boolean;
-    defaultSize?: { width: string | number; height: string | number }; // <--- NEW: Add default size
-};
-
-// --- App Definitions ---
-const mainApps: AppItem[] = [
-    { label: 'My Projects', icon: '/xp-icons/projects-icon.png', component: <Projects />, isFeatured: true, defaultSize: { width: 800, height: 500 } },
-    { label: 'Experience', icon: '/xp-icons/experience-icon.png', component: <Experience />, isFeatured: true, defaultSize: { width: 700, height: 450 } },
-    { label: 'Education', icon: '/xp-icons/education-icon.png', component: <Education />, defaultSize: { width: 600, height: 400 } },
-    { label: 'Skills', icon: '/xp-icons/skills-icon.png', component: <Skills />, defaultSize: { width: 500, height: 350 } },
-    { label: 'About Me', icon: '/xp-icons/about-me-icon.png', component: <AboutMe />, defaultSize: { width: 450, height: 300 } },
+const pinned: Entry[] = [
+  { label: 'My Projects', sub: 'Case studies, demos & code', icon: ICONS.projects, path: PATHS.projects, bold: true },
+  { label: 'About Me', sub: 'Notepad', icon: ICONS.text, path: PATHS.aboutMe, bold: true },
 ];
 
-const utilityApps: AppItem[] = [
-    { label: 'Contact Me', icon: '/xp-icons/contact-me-icon.png', component: <ContactMe />, defaultSize: { width: 400, height: 380 } },
-    { label: 'Calculator', icon: '/xp-icons/calculator-icon.png', component: <Calculator />, defaultSize: { width: 280, height: 380 } },
-    { label: 'Calendar', icon: '/xp-icons/calendar-icon.png', component: <Calendar />, defaultSize: { width: 320, height: 480 } },
-    { label: 'DevShell', icon: '/xp-icons/terminal-icon.png', component: <DevShell />, defaultSize: { width: 600, height: 400 } },
-    { label: 'Achievements', icon: '/xp-icons/briefcase-icon.png', component: <Achievements />, defaultSize: { width: 400, height: 200 } },
+const recent: Entry[] = [
+  { label: 'Resume.pdf', icon: ICONS.pdf, path: PATHS.resume },
+  { label: 'Experience', icon: ICONS.experience, path: PATHS.experience },
+  { label: 'DevShell', icon: ICONS.devshell, app: 'devshell' },
+  { label: 'Contact Me', icon: ICONS.contact, app: 'contact' },
+  { label: 'Calculator', icon: ICONS.calculator, app: 'calculator' },
+  { label: 'Calendar', icon: ICONS.calendar, app: 'calendar' },
 ];
 
-// --- System links for the right panel ---
-const systemLinks: AppItem[] = [
-    { label: 'My Resume', icon: '/xp-icons/my-documents-icon.png', component: <MyResume />, isFeatured: true, defaultSize: { width: 700, height: 550 } },
-    { label: 'Tech Stack', icon: '/xp-icons/my-computer-icon.png', component: <TechStack />, isFeatured: true, defaultSize: { width: 600, height: 450 } },
+const places: Entry[] = [
+  { label: 'My Documents', icon: ICONS.myDocuments, path: PATHS.myDocuments, bold: true },
+  { label: 'Education', icon: ICONS.education, path: PATHS.education, bold: true },
+  { label: 'Certificates', icon: ICONS.folder, path: PATHS.certificates, bold: true },
+  { label: 'My Computer', icon: ICONS.myComputer, path: PATHS.myComputer, bold: true },
 ];
 
-const settingsLinks: AppItem[] = [
-    { label: 'Theme Settings', icon: '/xp-icons/control-panel-icon.png', component: <ThemeSettings />, defaultSize: { width: 400, height: 300 } },
-    { label: 'Contact & Socials', icon: '/xp-icons/program-access-icon.png', component: <ContactSocials />, defaultSize: { width: 450, height: 350 } },
-    { label: 'System Info', icon: '/xp-icons/info-icon.png', component: <SystemInfo />, defaultSize: { width: 450, height: 350 } },
+const system: Entry[] = [
+  { label: 'Control Panel', icon: ICONS.display, app: 'display' },
+  { label: 'Favorites', icon: '/xp-icons/program-access-icon.png', path: PATHS.favorites },
+  { label: 'System Properties', icon: ICONS.system, app: 'system' },
+  { label: 'Run...', icon: ICONS.devshell, app: 'devshell' },
 ];
 
+export default function StartMenu({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) {
+  const { logOff, setPhase } = useSessionStore();
+  if (!isOpen) return null;
 
-// --- Helper Components for Styling ---
-const MenuItem = ({ item, onClick }: { item: AppItem; onClick: () => void; }) => (
-    <li
-        onClick={onClick}
-        className="flex items-center gap-3 px-3 py-1.5 hover:bg-[#316ac5] hover:text-white cursor-pointer transition-colors duration-150"
-    >
-        <Image src={item.icon} alt={item.label} className={item.isFeatured ? "w-8 h-8" : "w-6 h-6"} width={32} height={32} loading="lazy" />
-        <span className={item.isFeatured ? "font-bold" : ""}>{item.label}</span>
-    </li>
-);
-
-const Separator = () => <div className="my-1 border-t border-[#a3b3c5]"></div>;
-
-
-// --- Main Start Menu Component ---
-const StartMenu: React.FC<{ isOpen: boolean; onClose: () => void; }> = ({ isOpen, onClose }) => {
-    const { addWindow } = useWindowStore();
-
-    // State to help with staggered positioning of new windows
-    const [startMenuAppLaunchCount, setStartMenuAppLaunchCount] = useState<Record<string, number>>({});
-
-    // Function to get a staggered position for new windows
-    const getStaggeredPosition = (appName: string) => {
-        const currentCount = (startMenuAppLaunchCount[appName] || 0) + 1;
-        setStartMenuAppLaunchCount(prev => ({ ...prev, [appName]: currentCount }));
-        // Start new windows slightly to the right/down from a base position
-        return {
-            x: 150 + (currentCount * 15),
-            y: 100 + (currentCount * 15),
-        };
-    };
-
-    // Handle opening an app from the menu
-    const handleMenuItemClick = (item: AppItem) => {
-       
-        const uniqueId = `${item.label.replace(/\s/g, '-')}-${Date.now()}`;
-        const staggeredPosition = getStaggeredPosition(item.label);
-
-        addWindow(
-            uniqueId, 
-            item.label, 
-            item.component, 
-            staggeredPosition, 
-            item.defaultSize || { width: 600, height: 400 }, 
-            item.icon
-        );
-        onClose(); // Close the start menu after opening an app
-    };
-
-    const handleShutdown = () => {
-  const screen = document.createElement("div");
-  screen.style.position = "fixed";
-  screen.style.top = "0";
-  screen.style.left = "0";
-  screen.style.width = "100vw";
-  screen.style.height = "100vh";
-  screen.style.backgroundColor = "black";
-  screen.style.color = "lime";
-  screen.style.fontFamily = "monospace";
-  screen.style.fontSize = "20px";
-  screen.style.zIndex = "9999";
-  screen.style.display = "flex";
-  screen.style.flexDirection = "column";
-  screen.style.alignItems = "center";
-  screen.style.justifyContent = "center";
-  screen.innerHTML = `
-    <div>Shutting down...</div>
-    <div class="blink">🛑 System has been overloaded by creativity</div>
-    <div>Tap anywhere or press any key to reboot.</div>
-  `;
-  document.body.appendChild(screen);
-
-  const blink = document.createElement("style");
-  blink.innerHTML = `
-    .blink {
-      animation: blink 1s step-start infinite;
-    }
-    @keyframes blink {
-      50% { opacity: 0; }
-    }
-  `;
-  document.head.appendChild(blink);
-
-  // Cleanup handler
-  const removeScreen = () => {
-    if (document.body.contains(screen)) document.body.removeChild(screen);
-    if (document.head.contains(blink)) document.head.removeChild(blink);
-    document.removeEventListener("keydown", removeScreen);
-    document.removeEventListener("click", removeScreen);
+  const launch = (entry: Entry) => {
+    onClose();
+    if ('path' in entry) openPath(entry.path);
+    else openApp(entry.app);
   };
 
-  // Add both event listeners
-  document.addEventListener("keydown", removeScreen, { once: true });
-  document.addEventListener("click", removeScreen, { once: true });
-};
+  const Item = ({ entry, large }: { entry: Entry; large?: boolean }) => (
+    <li>
+      <button type="button" onClick={() => launch(entry)} className="xp-start-item" role="menuitem">
+        <img src={entry.icon} alt="" className={large ? 'h-8 w-8' : 'h-6 w-6'} />
+        <span className="min-w-0 text-left">
+          <span className={`block truncate ${entry.bold ? 'font-bold' : ''}`}>{entry.label}</span>
+          {entry.sub && <span className="xp-start-sub block truncate">{entry.sub}</span>}
+        </span>
+      </button>
+    </li>
+  );
 
+  return (
+    <>
+      {/* Click anywhere outside the menu (including the Start button) to close it. */}
+      <div className="fixed inset-0" style={{ zIndex: 9000001 }} onClick={(e) => { e.stopPropagation(); onClose(); }} />
+      <motion.nav
+        initial={{ opacity: 0, y: 8 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.12, ease: 'easeOut' }}
+        className="xp-start-menu fixed bottom-[30px] left-0 flex w-[min(400px,100vw)] flex-col"
+        style={{ zIndex: 9000002 }}
+        onClick={(e) => e.stopPropagation()}
+        aria-label="Start menu"
+      >
+        <header className="xp-start-header">
+          <img src="/xp-icons/user-avatar.jpg" alt="" className="h-12 w-12 rounded-[3px] border-2 border-white/80 object-cover" />
+          <span className="min-w-0">
+            <span className="block truncate text-[15px] font-bold">{profile.name}</span>
+            <span className="block truncate text-[11px] font-normal opacity-90">{profile.title}</span>
+          </span>
+        </header>
 
+        <div className="flex min-h-0 flex-1 border-t border-[#e98b2f]">
+          <ul className="flex w-1/2 flex-col bg-white py-1.5" role="menu">
+            {pinned.map((e) => <Item key={e.label} entry={e} large />)}
+            <li className="mx-2 my-1.5 border-t border-[#d6d6d6]" role="separator" />
+            {recent.map((e) => <Item key={e.label} entry={e} />)}
+            <li className="mt-auto border-t border-[#d6d6d6] pt-1">
+              <button
+                type="button"
+                className="xp-start-item justify-center font-bold"
+                onClick={() => launch({ label: 'All Programs', icon: ICONS.folder, path: PATHS.programFiles })}
+              >
+                All Programs <span className="text-[#2d9c2d]">▶</span>
+              </button>
+            </li>
+          </ul>
+          <ul className="flex w-1/2 flex-col border-l border-[#95bdee] bg-[#d3e5fa] py-1.5 text-[#0a246a]" role="menu">
+            {places.map((e) => <Item key={e.label} entry={e} />)}
+            <li className="mx-2 my-1.5 border-t border-[#a8c6ee]" role="separator" />
+            {system.map((e) => <Item key={e.label} entry={e} />)}
+          </ul>
+        </div>
 
-    if (!isOpen) return null;
-
-    return (
-        <motion.div
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: 10 }}
-            transition={{ duration: 0.15, ease: "easeOut" }}
-            className="absolute bottom-10 left-1 w-[380px] h-[500px] bg-[#d6d6d6] border-t border-l border-r border-[#0000008a] rounded-t-lg shadow-2xl flex flex-col font-['Tahoma',_sans-serif] text-sm text-black"
-            style={{ boxShadow: '5px 5px 15px rgba(0,0,0,0.4)' }}
-        >
-            {/* Header */}
-            <header className="flex items-center gap-3 p-2 bg-gradient-to-b from-[#084ac1] via-[#1c64d1] to-[#2575e9]">
-                <div className="w-12 h-12 bg-white border border-gray-300 rounded-sm flex items-center justify-center">
-                    <Image src="/xp-icons/user-avatar.jpg" alt="User" className="w-11 h-11" width={44} height={44} loading="lazy" />
-                </div>
-                <span className="font-bold text-white text-lg shadow-black/50 [text-shadow:_1px_1px_2px_var(--tw-shadow-color)]">
-                    Leon Munene
-                </span>
-            </header>
-
-            {/* Main Content (Two Columns) */}
-            <div className="flex flex-1 overflow-hidden">
-                {/* Left Panel (White) */}
-                <div className="w-1/2 bg-white flex flex-col pt-1.5">
-                    <ul className="flex-1">
-                        {mainApps.map(app => (
-                            <MenuItem key={app.label} item={app} onClick={() => handleMenuItemClick(app)} />
-                        ))}
-                        <Separator />
-                        {utilityApps.map(app => (
-                            <MenuItem key={app.label} item={app} onClick={() => handleMenuItemClick(app)} />
-                        ))}
-                    </ul>
-
-                </div>
-
-                {/* Right Panel (Light Gray) */}
-                <div className="w-1/2 bg-[#d6e5f7] flex flex-col pt-1.5">
-                    <ul>
-                        {systemLinks.map(app => (
-                            <MenuItem key={app.label} item={app} onClick={() => handleMenuItemClick(app)} />
-                        ))}
-                        <Separator />
-                        {settingsLinks.map(app => (
-                            <MenuItem key={app.label} item={app} onClick={() => handleMenuItemClick(app)} />
-                        ))}
-                    </ul>
-                </div>
-            </div>
-
-            {/* Footer */}
-            <footer className="flex justify-end items-center gap-4 p-2 bg-gradient-to-b from-[#084ac1] via-[#1c64d1] to-[#2575e9] border-t border-white/50">
-                <button onClick={onClose} className="flex items-center gap-1.5 text-white">
-                    <Image src="/xp-icons/logout-icon.png" alt="Log Off" className="w-5 h-5" width={20} height={20} loading="lazy" />
-                    <span className="font-semibold text-shadow-sm">Log Off</span>
-                </button>
-                <button onClick={handleShutdown} className="flex items-center gap-1.5 text-white">
-                    <Image src="/xp-icons/shutdown-icon.png" alt="Turn Off Computer" className="w-5 h-5" width={20} height={20} loading="lazy" />
-                    <span className="font-semibold">Turn Off</span>
-                </button>
-            </footer>
-        </motion.div>
-    );
-};
-
-export default StartMenu;
+        <footer className="xp-start-footer">
+          <button type="button" onClick={() => { onClose(); logOff(); }} className="flex items-center gap-1.5">
+            <img src="/xp-icons/logout-icon.png" alt="" className="h-6 w-6" />
+            Log Off
+          </button>
+          <button type="button" onClick={() => { onClose(); setPhase('turnOff'); }} className="flex items-center gap-1.5">
+            <img src="/xp-icons/shutdown-icon.png" alt="" className="h-6 w-6" />
+            Turn Off Computer
+          </button>
+        </footer>
+      </motion.nav>
+    </>
+  );
+}

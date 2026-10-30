@@ -1,7 +1,7 @@
 import { motion } from 'framer-motion';
 import { useEffect, useState } from 'react';
 
-const AnimatedPlaceholder = ({ placeholders }) => {
+const AnimatedPlaceholder = ({ placeholders }: { placeholders: string[] }) => {
   const [index, setIndex] = useState(0);
 
   useEffect(() => {

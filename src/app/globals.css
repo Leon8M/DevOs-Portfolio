@@ -715,3 +715,322 @@ body {
   border-radius: 50%; /* Make it a circle */
   animation: spin 1s linear infinite; /* Apply the animation */
 }
+/* =========================================================================================
+   LeonOS 2.0: window frame, menus, Explorer, desktop, Start menu, boot screen.
+   Colours follow the Windows XP "Luna (Blue)" theme.
+   ========================================================================================= */
+
+.font-xp-ui {
+  font-family: Tahoma, "Segoe UI", Verdana, "DejaVu Sans", sans-serif;
+}
+
+.start-button-xp {
+  font-family: "Franklin Gothic Medium", "Trebuchet MS", Tahoma, sans-serif;
+  font-style: italic;
+  font-size: 1rem;
+  padding-right: 14px;
+}
+.start-button-xp.pressed {
+  background: linear-gradient(to top, #74A536, #5E8F1F);
+  box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.35);
+}
+
+/* ---------------------------------------------------------------- window frame */
+.xp-window {
+  flex-direction: column;
+  border: 3px solid #0831d9;
+  border-top: 0;
+  border-radius: 8px 8px 0 0;
+  background: #ece9d8;
+  box-shadow: 2px 3px 10px rgba(0, 0, 0, 0.45);
+  overflow: hidden;
+  font-family: Tahoma, "Segoe UI", Verdana, sans-serif;
+}
+.xp-window.inactive {
+  border-color: #7a96df;
+}
+.xp-window.maximized {
+  border-radius: 0;
+  border-width: 0;
+}
+.xp-titlebar {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+  height: 30px;
+  padding: 0 4px 0 7px;
+  color: #fff;
+  font: bold 13px "Trebuchet MS", Tahoma, sans-serif;
+  text-shadow: 1px 1px 1px #0a1883;
+  cursor: default;
+  background: linear-gradient(180deg, #0997ff 0%, #0053ee 8%, #0050ee 40%, #0066ff 88%, #0066ff 93%, #005bff 95%, #003dd7 96%, #003dd7 100%);
+  border-radius: 7px 7px 0 0;
+  user-select: none;
+  touch-action: none;
+}
+.xp-window.inactive .xp-titlebar {
+  background: linear-gradient(180deg, #7697e7 0%, #7e9ee3 10%, #94afe8 50%, #97b4e9 90%, #829ce0 100%);
+  color: #d8e4f8;
+  text-shadow: none;
+}
+.xp-window.maximized .xp-titlebar {
+  border-radius: 0;
+}
+.xp-titlebar-buttons {
+  display: flex;
+  gap: 2px;
+}
+.xp-title-button {
+  display: flex;
+  width: 21px;
+  height: 21px;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #fff;
+  border-radius: 3px;
+  background: radial-gradient(circle at 90% 90%, #0054e9 0%, #2263d5 55%, #4479e4 90%, #a3bbec 100%);
+}
+.xp-title-button:hover {
+  filter: brightness(1.15);
+}
+.xp-title-button.close {
+  background: radial-gradient(circle at 90% 90%, #cc4600 0%, #dc6527 55%, #e5a01a 90%, #f8d3b2 100%);
+}
+.xp-window.inactive .xp-title-button {
+  opacity: 0.75;
+}
+.xp-window-body {
+  position: relative;
+  display: flex;
+  min-height: 0;
+  flex: 1;
+  flex-direction: column;
+  overflow: auto;
+  background: #ece9d8;
+}
+.xp-window-body > * {
+  min-height: 100%;
+}
+
+/* ---------------------------------------------------------------- menus */
+.xp-menubar {
+  display: flex;
+  flex-shrink: 0;
+  gap: 1px;
+  padding: 1px 2px;
+  background: #ece9d8;
+  font-size: 11px;
+  color: #000;
+}
+.xp-menubar-title {
+  padding: 2px 7px;
+  border-radius: 0;
+}
+.xp-menubar-title:hover,
+.xp-menubar-title.open {
+  background: #316ac5;
+  color: #fff;
+}
+.xp-menu {
+  position: absolute;
+  left: 0;
+  top: 100%;
+  z-index: 50;
+  min-width: 180px;
+  padding: 2px;
+  background: #fff;
+  border: 1px solid #aca899;
+  box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+  font-size: 11px;
+  color: #000;
+}
+.xp-menu-item {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 8px 3px 2px;
+  white-space: nowrap;
+  text-align: left;
+}
+.xp-menu-item:hover:not(:disabled) {
+  background: #316ac5;
+  color: #fff;
+}
+.xp-menu-item:disabled {
+  color: #aca899;
+}
+.xp-menu-separator {
+  margin: 3px 2px;
+  border-top: 1px solid #aca899;
+}
+
+/* ---------------------------------------------------------------- controls */
+.xp-button {
+  min-width: 75px;
+  padding: 3px 10px;
+  border: 1px solid #003c74;
+  border-radius: 3px;
+  background: linear-gradient(180deg, #fff 0%, #ecebe6 86%, #d6d0c5 100%);
+  font-size: 11px;
+  color: #000;
+}
+.xp-button:hover:not(:disabled) {
+  box-shadow: inset 0 0 0 2px #f8b636;
+}
+.xp-button:focus-visible {
+  box-shadow: inset 0 0 0 2px #98b8ea;
+  outline: none;
+}
+.xp-button:disabled {
+  border-color: #c9c7ba;
+  color: #a1a192;
+}
+.xp-tool-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 5px;
+  border: 1px solid transparent;
+  border-radius: 3px;
+  font-size: 11px;
+  color: #000;
+  white-space: nowrap;
+}
+.xp-tool-button:hover:not(:disabled) {
+  border-color: #cecec3;
+  background: linear-gradient(180deg, #fff, #e5e3d8);
+}
+.xp-tool-button:active:not(:disabled) {
+  background: #e3e1d6;
+}
+.xp-tool-button:disabled {
+  filter: grayscale(1);
+  opacity: 0.45;
+}
+.xp-statusbar {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  gap: 8px;
+  height: 22px;
+  padding: 0 6px;
+  border-top: 1px solid #c5c2b2;
+  background: #ece9d8;
+  font-size: 11px;
+  color: #000;
+}
+.xp-dialog {
+  overflow: hidden;
+  border: 3px solid #0831d9;
+  border-radius: 7px 7px 0 0;
+  background: #ece9d8;
+  box-shadow: 2px 3px 10px rgba(0, 0, 0, 0.45);
+}
+.xp-dialog-title {
+  padding: 4px 7px;
+  color: #fff;
+  font: bold 12px "Trebuchet MS", Tahoma, sans-serif;
+  background: linear-gradient(180deg, #0997ff 0%, #0053ee 10%, #0066ff 90%, #003dd7 100%);
+}
+
+/* ---------------------------------------------------------------- Explorer items */
+.xp-item-label {
+  max-width: 100%;
+  padding: 0 2px;
+  color: #000;
+  overflow-wrap: anywhere;
+}
+.xp-item-label.selected {
+  background: #316ac5;
+  color: #fff;
+}
+.xp-icon-selected {
+  filter: brightness(0.75) sepia(1) hue-rotate(180deg) saturate(3);
+}
+.xp-group-heading {
+  margin: 2px 0 6px;
+  padding-bottom: 2px;
+  color: #0e3ab4;
+  font-weight: bold;
+  border-bottom: 1px solid;
+  border-image: linear-gradient(90deg, #6f8ad8, transparent) 1;
+}
+
+/* ---------------------------------------------------------------- desktop */
+.xp-desktop-label {
+  max-width: 100%;
+  padding: 0 2px;
+  color: #fff;
+  font-size: 11px;
+  line-height: 1.25;
+  text-shadow: 1px 1px 1px #000, 0 0 3px rgba(0, 0, 0, 0.6);
+  overflow-wrap: anywhere;
+}
+.xp-desktop-label.selected {
+  background: #316ac5;
+  text-shadow: none;
+  outline: 1px dotted #f5d27a;
+}
+
+/* ---------------------------------------------------------------- Start menu */
+.xp-start-menu {
+  max-height: calc(100vh - 40px);
+  overflow: hidden;
+  border: 1px solid #0a246a;
+  border-radius: 7px 7px 0 0;
+  background: #fff;
+  box-shadow: 4px 4px 12px rgba(0, 0, 0, 0.45);
+  font-family: Tahoma, "Segoe UI", sans-serif;
+  font-size: 11px;
+}
+.xp-start-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 7px 8px;
+  color: #fff;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.6);
+  background: linear-gradient(180deg, #1868ce 0%, #0e60cb 12%, #0e60cb 20%, #1164cf 32%, #1667cf 33%, #1b6cd3 47%, #1e70d9 54%, #2476dc 60%, #2a7ae3 71%, #2c7ee6 77%, #3482e3 94%, #3b88e8 97%, #1260d1 100%);
+}
+.xp-start-item {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 8px;
+  color: inherit;
+}
+.xp-start-item:hover {
+  background: #316ac5;
+  color: #fff;
+}
+.xp-start-sub {
+  color: #8a8a8a;
+  font-size: 10px;
+}
+.xp-start-item:hover .xp-start-sub {
+  color: #d9e4f8;
+}
+.xp-start-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 18px;
+  padding: 6px 12px;
+  color: #fff;
+  background: linear-gradient(180deg, #4282d6 0%, #3b85e0 6%, #418ae3 10%, #418ae3 15%, #4c90e7 27%, #4c90e7 35%, #3a7cd8 62%, #2b70d2 100%);
+}
+
+/* ---------------------------------------------------------------- boot screen */
+@keyframes xp-boot-slide {
+  from { transform: translateX(-40px); }
+  to { transform: translateX(150px); }
+}
+.xp-boot-bar {
+  animation: xp-boot-slide 1.6s linear infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+  .xp-boot-bar { animation-duration: 4s; }
+}

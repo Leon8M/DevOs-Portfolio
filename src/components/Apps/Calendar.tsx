@@ -8,7 +8,6 @@ import {
     addMonths,
     subMonths,
     getDay,
-    isToday as isTodayFn,
     getYear,
     getMonth,
     setYear,
@@ -46,6 +45,17 @@ const Calendar: React.FC = () => {
         return getDay(startOfMonth(currentMonth)); // 0 for Sunday, 1 for Monday, etc.
     }, [currentMonth]);
 
+    // --- Day Click and Event Handling ---
+    // Declared before renderCalendarDays and listed in its dependencies, so the day buttons
+    // always see the current events instead of a stale copy.
+    const handleDayClick = useCallback((date: Date) => {
+        setSelectedDate(date);
+        setActiveDateForEvent(date);
+        setShowEventInput(true); // Show event input when a day is clicked
+        const existingEvent = events.find(event => isSameDay(parseISO(event.date), date));
+        setNewEventText(existingEvent ? existingEvent.notes.join('\n') : '');
+    }, [events]);
+
     const renderCalendarDays = useCallback(() => {
         const days = [];
         // Add empty divs for preceding days of the week
@@ -70,7 +80,7 @@ const Calendar: React.FC = () => {
             );
         });
         return days;
-    }, [daysInMonth, startingDayOfWeek, selectedDate, events]);
+    }, [daysInMonth, startingDayOfWeek, selectedDate, events, handleDayClick]);
 
     // --- Navigation Handlers ---
     const goToPreviousMonth = () => {
@@ -99,15 +109,6 @@ const Calendar: React.FC = () => {
         const newYear = parseInt(event.target.value, 10);
         setCurrentMonth(prev => setYear(prev, newYear));
         setSelectedDate(null);
-    };
-
-    // --- Day Click and Event Handling ---
-    const handleDayClick = (date: Date) => {
-        setSelectedDate(date);
-        setActiveDateForEvent(date);
-        setShowEventInput(true); // Show event input when a day is clicked
-        const existingEvent = events.find(event => isSameDay(parseISO(event.date), date));
-        setNewEventText(existingEvent ? existingEvent.notes.join('\n') : '');
     };
 
     const handleAddEvent = () => {

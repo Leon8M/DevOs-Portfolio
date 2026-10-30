@@ -197,7 +197,7 @@ const Calculator: React.FC = () => {
             setCurrentInput(result);
             setExpression([]);
             setLastActionEquals(true);
-        } catch (_e: unknown) {
+        } catch {
             setCurrentInput('Error');
             setExpression([]);
             setLastActionEquals(true);
