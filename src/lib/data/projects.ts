@@ -61,8 +61,8 @@ export const projects: Project[] = [
       "An AI-powered platform for generating and learning from custom courses.",
     longDescription:
       "**Problem:** Creating comprehensive educational content is time-consuming.\n**Solution:** An AI-powered platform that dynamically generates courses with chapters and video resources.\n**Stack:** Next.js, Tailwind CSS, Clerk, Shadcn UI, Google Gemini API.\n**Impact:** Revolutionizes content creation and provides a rich, interactive learning experience.",
-    website: "https://kamusi.denexsoftware.co.ke/",
-    github: "https://github.com/Leon8M/LearnWithAi",
+    website: "https://kamusi.denex.co.ke/",
+    github: "https://github.com/Leon8M/Ai-LearnHub",
     screenshot: "/projects/learnai.png",
     technologies: [
       "Next.js",
